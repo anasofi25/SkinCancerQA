@@ -1,0 +1,91 @@
+Agent 2 Test Results
+Date: 2026-04-05 15:31:59
+============================================================
+
+Question: What are the symptoms of melanoma?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }
+------------------------------------------------------------
+
+Question: How is basal cell carcinoma treated?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: What are the risk factors for skin cancer?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}
+------------------------------------------------------------
+
+Question: What types of skin cancer exist?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }
+------------------------------------------------------------
+
+Question: How is skin cancer diagnosed?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }
+------------------------------------------------------------
+
+Question: How is melanoma treated?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: How is melanoma diagnosed?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }
+------------------------------------------------------------
+
+Question: What are some treatment options for non-melanoma?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:NonMelanomaCancer sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: How is squamous cell carcinoma treated?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: Where does melanoma commonly appear on the body?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }
+------------------------------------------------------------
+
+Question: Where does basal cell carcinoma commonly appear?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }
+------------------------------------------------------------
+
+Question: What symptoms does squamous cell carcinoma cause?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }
+------------------------------------------------------------
+
+Question: What are the treatments for actinic keratosis?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: What are the risk factors for squamous cell carcinoma?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }
+------------------------------------------------------------
+

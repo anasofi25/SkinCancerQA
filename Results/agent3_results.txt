@@ -1,0 +1,47 @@
+Agent 3 Test Results
+Date: 2026-04-21 16:51:20
+============================================================
+
+Question: Which skin cancers are treated with immunotherapy?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }
+------------------------------------------------------------
+
+Question: Which skin cancers commonly appear on the face?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer rdfs:subClassOf sc:SkinCancer . ?cancer sc:commonlyFoundOn sc:Face }
+------------------------------------------------------------
+
+Question: What do melanoma and basal cell carcinoma have in common?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?commonality WHERE { sc:Melanoma ?commonality rdfs:subClassOf/ sc:BasalCellCarcinoma . }
+------------------------------------------------------------
+
+Question: Which cancers have UV exposure as a risk factor?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?cancer WHERE { ?cancer rdfs:subClassOf sc:SkinCancer . ?cancer sc:hasRiskFactor sc:UVExposure }
+------------------------------------------------------------
+
+Question: What are all the treatments available for skin cancer?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SkinCancer sc:treatedWith ?treatment }
+------------------------------------------------------------
+
+Question: Which cancer has the most symptoms?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT (COUNT(?sym) AS ?count) WHERE { ?cancer sc:hasSymptom ?symptom ; COUNT(?sym) GROUP BY ?symptom }
+------------------------------------------------------------
+
+Question: What skin cancers can be treated with cryotherapy?
+Generated SPARQL:
+PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Cryotherapy }
+------------------------------------------------------------
+

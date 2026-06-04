@@ -1,0 +1,232 @@
+EVALUATION REPORT — VARIANT A (Prompted LLM)
+Date: 2026-05-23 13:10:16
+Model: llama3.2 via Ollama
+Ontology: skinCancerExpanded
+============================================================
+
+OVERALL ACCURACY: 15/15 (100.0%)
+
+============================================================
+DETAILED RESULTS
+============================================================
+
+Q1: What are the symptoms of melanoma?
+Expected keyword: Asymmetry
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }
+Raw results: Asymmetry
+Bleeding
+ColorVariation
+DiameterChange
+IrregularBorder
+Answer: When it comes to melanoma, a type of skin cancer, some common symptoms to look out for are irregular borders. This means that the edges of the mole or spot may be lumpy, scalloped, or notched. Additionally, other warning signs include asymmetry, where one half of the mole doesn't match the other half, and color variation, which can indicate an abnormal growth.
+Result: CORRECT
+------------------------------------------------------------
+
+Q2: What are the symptoms of basal cell carcinoma?
+Expected keyword: PearlAppearance
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:BasalCellCarcinoma sc:hasSymptom ?symptom }
+Raw results: Bleeding
+Elevation
+OpenSore
+PearlAppearance
+Answer: Basal cell carcinoma is a type of skin cancer that often appears on sun-exposed areas. The symptoms of basal cell carcinoma can include an open sore, also known as an ulcer, which may bleed easily and not heal quickly. It may also cause the skin around it to become elevated or puffy, giving it a raised appearance, similar to a pearl under the skin.
+Result: CORRECT
+------------------------------------------------------------
+
+Q3: How is melanoma treated?
+Expected keyword: Immunotherapy
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }
+Raw results: Chemotherapy
+Immunotherapy
+SurgicalExcision
+Answer: Melanoma treatment typically involves a combination of therapies. SurgicalExcision is often used to remove the cancerous tumor, and in some cases, it may also be necessary to remove surrounding skin tissue. Additionally, Chemotherapy and Immunotherapy may be recommended to help kill any remaining cancer cells or stimulate the body's immune system to fight the disease.
+Result: CORRECT
+------------------------------------------------------------
+
+Q4: How is basal cell carcinoma treated?
+Expected keyword: MohsSurgery
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }
+Raw results: Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision
+Answer: Basal cell carcinoma is typically treated with one of three methods: Mohs surgery, which involves removing the cancerous tissue layer by layer to ensure all cancer cells are removed; Surgical excision, where the entire tumor and surrounding healthy skin are removed in one operation; or Radiation therapy, a treatment that uses high-energy rays to kill cancer cells.
+Result: CORRECT
+------------------------------------------------------------
+
+Q5: How is squamous cell carcinoma treated?
+Expected keyword: SurgicalExcision
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }
+Raw results: Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy
+Answer: Squamous cell carcinoma can be treated with a variety of methods. Chemotherapy uses medicine to kill cancer cells, while Radiation Therapy uses high-energy rays to destroy cancer cells. In some cases, Surgical Excision may be necessary to remove the tumor and affected tissue, or Topical Therapy, such as applying creams or ointments directly to the skin, may also be used.
+Result: CORRECT
+------------------------------------------------------------
+
+Q6: What are the risk factors for melanoma?
+Expected keyword: UVExposure
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}
+Raw results: ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure
+Answer: To determine your risk of developing melanoma, you need to consider several factors. These include having fair skin, a history of previous skin cancer like basal cell carcinoma or squamous cell carcinoma, and a family history of the disease. Additionally, exposure to UV radiation from the sun or tanning beds can also increase your risk of melanoma.
+Result: CORRECT
+------------------------------------------------------------
+
+Q7: What are the risk factors for skin cancer?
+Expected keyword: UVExposure
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}
+Raw results: ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure
+Answer: So, when it comes to skin cancer, there are several risk factors that increase your chances of developing the condition. These include having fair skin, a history of previous skin cancer, a family history of melanoma or other types of skin cancer, exposure to UV radiation from the sun or tanning beds, and certain conditions like immunosuppression. Additionally, smoking and exposure to chemicals can also raise your risk.
+Result: CORRECT
+------------------------------------------------------------
+
+Q8: What types of skin cancer exist?
+Expected keyword: Melanoma
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }
+Raw results: ActinicKeratosis
+BasalCellCarcinoma
+NonMelanomaCancer
+Melanoma
+SquamousCellCarcinoma
+Answer: There are several types of skin cancer that exist. The most common non-melanoma type is Basal Cell Carcinoma, followed by Squamous Cell Carcinoma. The rarest and deadliest form is Melanoma, which originates from the pigment-producing cells in the skin called melanocytes.
+Result: CORRECT
+------------------------------------------------------------
+
+Q9: How is melanoma diagnosed?
+Expected keyword: Biopsy
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }
+Raw results: Biopsy
+Dermoscopy
+Answer: When diagnosing melanoma, our first step is usually to take a sample of the suspicious skin tissue through a procedure called biopsy. We use this sample to examine it closely in a lab for signs of cancer cells. In some cases, we may also perform a dermatoscopy, which is an examination using a special tool that magnifies and illuminates the skin, helping us get a closer look at the skin's surface to determine if there are any suspicious features.
+Result: CORRECT
+------------------------------------------------------------
+
+Q10: How is skin cancer diagnosed?
+Expected keyword: Biopsy
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }
+Raw results: Biopsy
+Dermoscopy
+Answer: To diagnose skin cancer, your doctor may use two main methods: taking a sample of tissue from the suspicious area (biopsy) to examine under a microscope for abnormal cells. Additionally, dermoscopy is a special type of examination where a doctor uses a magnifying lens and light to closely look at the skin's surface, which can help spot early signs of skin cancer. This combination of biopsy and dermoscopy helps your doctor determine if you have skin cancer and what type it might be.
+Result: CORRECT
+------------------------------------------------------------
+
+Q11: Where does melanoma commonly appear?
+Expected keyword: Back
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }
+Raw results: Arms
+Back
+Legs
+Answer: Melanoma most commonly appears on areas of skin that receive the most sunlight, such as the Arms and Legs. This is because these parts of the body are more exposed to the sun's ultraviolet (UV) rays, which can cause DNA damage and lead to skin cancer. The Back is also a common location for melanoma, likely due to its similarly high level of sun exposure.
+Result: CORRECT
+------------------------------------------------------------
+
+Q12: Where does basal cell carcinoma commonly appear?
+Expected keyword: Face
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }
+Raw results: Face
+Neck
+Scalp
+Answer: Basal cell carcinoma often appears on areas of the body that receive the most sun exposure. This means it commonly occurs on the Face, Neck, and Scalp. These regions are more prone to developing basal cell carcinoma due to their frequent exposure to the sun's ultraviolet rays.
+Result: CORRECT
+------------------------------------------------------------
+
+Q13: What symptoms does squamous cell carcinoma cause?
+Expected keyword: ScalyPatch
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }
+Raw results: Bleeding
+Itching
+OpenSore
+ScalyPatch
+Answer: Squamous cell carcinoma can cause several symptoms. A common sign is an OpenSore that doesn't heal on its own, which can be painful and may bleed if it's broken open. Itching is another symptom people often experience with this type of skin cancer, and sometimes there might be a small, scaly Patch.
+Result: CORRECT
+------------------------------------------------------------
+
+Q14: What are the treatments for actinic keratosis?
+Expected keyword: Cryotherapy
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }
+Raw results: Cryotherapy
+TopicalTherapy
+Answer: Actinic keratosis is typically treated with Cryotherapy, which involves freezing off the affected skin cells to prevent them from growing into cancer. Topical Therapy, such as applying creams or ointments, can also be used to treat actinic keratosis by slowing down cell growth and reducing the risk of progression to skin cancer. In some cases, a combination of both Cryotherapy and Topical Therapy may be recommended for optimal results.
+Result: CORRECT
+------------------------------------------------------------
+
+Q15: What are the risk factors for squamous cell carcinoma?
+Expected keyword: Smoking
+SPARQL: PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }
+Raw results: ChemicalExposure
+ImmunosuppressedSystem
+Smoking
+UVExposure
+Answer: Squamous cell carcinoma is a type of skin cancer that can be caused by several risk factors. Chemical exposure to certain substances, such as those found in tanning beds or some industrial chemicals, can increase the risk of developing this type of skin cancer. Additionally, people who are immunosuppressed, like those with HIV/AIDS or taking chemotherapy, and smokers are also at a higher risk of getting squamous cell carcinoma due to UV exposure from the sun or tanning beds.
+Result: CORRECT
+------------------------------------------------------------
+
