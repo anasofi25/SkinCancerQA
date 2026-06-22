@@ -1,6 +1,7 @@
 from agent_gen_query import generate_sparql
 from agent_validator import validate_results
-from agent_explainer import explain_answer
+#from agent_explainer import
+from agent_explainer2 import explain_answer, DEFAULT_MODEL
 import requests
 import threading
 
@@ -41,25 +42,19 @@ def execute_query(query):
     return "\n".join(results)
 
 
-def run_pipeline(question, max_retries=2):
+def run_pipeline(question, max_retries=2, agent3_model=DEFAULT_MODEL):
     feedback = None
 
     for attempt in range(max_retries + 1):
         print(f"\n--- Attempt {attempt + 1} ---")
 
         sparql_query = generate_sparql(question, feedback)
-        print("SPARQL:\n", sparql_query)
-
         results = execute_query(sparql_query)
-        print("Results:\n", results)
 
         is_valid, reason, raw = validate_results(question, sparql_query, results)
-        print(f"Validation: {'VALID' if is_valid else 'INVALID'}")
-        if reason:
-            print(f"Reason: {reason}")
 
         if is_valid:
-            answer = explain_answer(question, results)
+            answer = explain_answer(question, results, model_key=agent3_model)
             return sparql_query, results, answer
 
         feedback = reason or "The query does not answer the question correctly."
@@ -67,11 +62,11 @@ def run_pipeline(question, max_retries=2):
     return None, None, None
 
 
-def run_pipeline_with_timeout(question, max_retries=2, timeout_seconds=120):
+def run_pipeline_with_timeout(question, max_retries=2, timeout_seconds=120, agent3_model=DEFAULT_MODEL):
     result = [None, None, None]
 
     def target():
-        r = run_pipeline(question, max_retries)
+        r = run_pipeline(question, max_retries, agent3_model)
         result[0], result[1], result[2] = r
 
     thread = threading.Thread(target=target)

@@ -1,5 +1,6 @@
 import streamlit as st
 from pipeline_v2 import run_pipeline_with_timeout
+from agent_explainer2 import MODEL_REGISTRY, DEFAULT_MODEL
 
 st.set_page_config(
     page_title="Skin Cancer QA",
@@ -20,10 +21,29 @@ if "messages" not in st.session_state:
 if "sparql_history" not in st.session_state:
     st.session_state.sparql_history = []
 
+if "agent3_model" not in st.session_state:
+    st.session_state.agent3_model = DEFAULT_MODEL
+
+DISPLAY_NAMES = {
+    "llama3.2": "Llama 3.2 (base)",
+    "skincancer-llama": "Skin Cancer Llama (fine-tuned)",
+    "medgemma-skincancer": "MedGemma Skin Cancer (LM Studio)",
+}
+
 col1, col2 = st.columns([2, 1])
 
 with col1:
     st.subheader("Chat")
+
+    model_keys = list(MODEL_REGISTRY.keys())
+    selected_model = st.selectbox(
+        "Answer model (Agent 3)",
+        options=model_keys,
+        format_func=lambda k: DISPLAY_NAMES.get(k, k),
+        index=model_keys.index(st.session_state.agent3_model),
+        key="agent3_model_picker",
+    )
+    st.session_state.agent3_model = selected_model
 
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
@@ -41,7 +61,8 @@ with col1:
                 sparql, results, answer = run_pipeline_with_timeout(
                     question,
                     max_retries=2,
-                    timeout_seconds=120
+                    timeout_seconds=120,
+                    agent3_model=st.session_state.agent3_model,
                 )
 
             if answer:
@@ -54,7 +75,8 @@ with col1:
                     "question": question,
                     "sparql": sparql,
                     "results": results,
-                    "answer": answer
+                    "answer": answer,
+                    "model": st.session_state.agent3_model,
                 })
             else:
                 msg = "I could not find an answer in the ontology for that question."
@@ -70,6 +92,8 @@ with col2:
     if st.session_state.sparql_history:
         latest = st.session_state.sparql_history[-1]
 
+        st.caption(f"Answered with: {DISPLAY_NAMES.get(latest['model'], latest['model'])}")
+
         with st.expander("Generated SPARQL Query", expanded=True):
             st.code(latest["sparql"], language="sparql")
 
@@ -79,7 +103,8 @@ with col2:
         if len(st.session_state.sparql_history) > 1:
             st.subheader("Previous Queries")
             for item in reversed(st.session_state.sparql_history[:-1]):
-                with st.expander(f"Q: {item['question'][:40]}..."):
+                model_label = DISPLAY_NAMES.get(item.get("model"), item.get("model", "unknown"))
+                with st.expander(f"Q: {item['question'][:40]}... ({model_label})"):
                     st.code(item["sparql"], language="sparql")
                     st.text(item["results"])
     else:
@@ -94,7 +119,7 @@ with st.sidebar:
     - **Agent 2** — validates results
     - **Agent 3** — explains answers
     - **GraphDB** — ontology database
-    - **Ollama** — local LLM (llama3.2)
+    - **Ollama / LM Studio** — local LLM backends
     """)
 
     st.divider()
