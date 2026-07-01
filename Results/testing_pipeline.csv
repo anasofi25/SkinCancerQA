@@ -1,0 +1,263 @@
+timestamp,question,expected_keyword,model,valid,retries,agent1_time,graphdb_time,agent2_time,agent3_time,total_time,keyword_hit,answer_length_words,sparql,raw_results,answer,,,
+6/29/2026 14:53,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,llama3.2,FALSE,2,102.66,0.2167,0,,102.88,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?cancer
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""bleeding"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""elevation"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",No results found,FAILED - validation,,,
+6/29/2026 14:53,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,skincancer-llama,TRUE,1,30.06,0.049,16,51.96,98.07,FALSE,52,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face sc:hasSymptom ?symptom. FILTER(STR(?symptom) = ""itching"" AND STR(?symptom) = ""bleeding"" AND STR(?symptom) = ""elevation"") }",Error: 400,"Given the patient's age and symptoms of itching, bleeding, and elevation on the face, Basal Cell Carcinoma is a common diagnosis. This type of skin cancer often appears as a pearly or waxy bump, or a flat, flesh-colored or brown scar-like lesion. Prompt medical evaluation is recommended for this type of lesion.",,,
+6/29/2026 14:53,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,medgemma-original,TRUE,0,18.32,0.2246,4.51,55.52,78.56,FALSE,35,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face sc:hasSymptom ?symptom. FILTER(STR(?symptom) = ""itching"" AND STR(?symptom) = ""bleeding"" AND STR(?symptom) = ""elevation"") }",Error: 400,"Based on the symptoms of itching, bleeding, and elevation, the most likely type of skin cancer is basal cell carcinoma. Basal cell carcinomas are common in sun-exposed areas like the face, especially in older adults.",,,
+6/29/2026 15:08,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,llama3.2,FALSE,2,105.54,0.2476,0,,105.79,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?cancer
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""bleeding"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""elevation"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",No results found,FAILED - validation,,,
+6/29/2026 15:08,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,skincancer-llama,FALSE,2,65.4,0.1653,13.77,,79.34,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?cancer
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""bleeding"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""elevation"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",No results found,FAILED - validation,,,
+6/29/2026 15:08,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,medgemma-original,FALSE,2,52.78,0.1134,3.68,,56.57,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?cancer
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""bleeding"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?symptom rdfs:label ""elevation"" .
+  ?symptom sc:hasSymptom ?cancer .
+  
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",No results found,FAILED - validation,,,
+6/29/2026 15:44,"A patient who smokes has a growing, itchy lesion on the nose. Smoking is a known risk factor for which skin cancer?",SquamousCellCarcinoma,llama3.2,TRUE,0,4.77,0.0244,6.8,20.54,32.14,TRUE,60,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"A patient who smokes is more likely to develop Squamous Cell Carcinoma. Smoking damages the skin's DNA and increases the risk of this type of skin cancer. The growing, itchy lesion on the nose may be an early sign of Squamous Cell Carcinoma, so it's essential for your patient to see a doctor for a proper diagnosis and treatment plan.",,,
+6/29/2026 15:44,"A patient who smokes has a growing, itchy lesion on the nose. Smoking is a known risk factor for which skin cancer?",SquamousCellCarcinoma,skincancer-llama,TRUE,0,7.36,0.0145,6.02,55.11,68.5,TRUE,50,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"The patient's symptoms of an itchy and growing lesion on the nose, combined with a history of smoking, are concerning for Squamous Cell Carcinoma. This is a common type of skin cancer that can develop in sun-exposed areas and is linked to risk factors such as smoking and fair skin.",,,
+6/29/2026 15:44,"A patient who smokes has a growing, itchy lesion on the nose. Smoking is a known risk factor for which skin cancer?",SquamousCellCarcinoma,medgemma-original,TRUE,0,11.2,0.3863,3.86,38.66,54.1,TRUE,24,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,The patient's symptoms and smoking history suggest a possible Squamous Cell Carcinoma. Smoking is a well-established risk factor for this type of skin cancer.,,,
+6/29/2026 15:48,A patient with a history of previous skin cancer develops a new lesion on the back with color changes. What skin cancer has previous skin cancer and UV exposure as risk factors?,Melanoma,llama3.2,TRUE,0,11.38,0.73,15.69,10.67,38.47,TRUE,65,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","A patient with a history of previous skin cancer is at higher risk for developing another type of skin cancer. One option to consider is Squamous Cell Carcinoma, which often develops in people who have had previous sun exposure and skin cancers like Basal Cell Carcinoma or Melanoma. Actinic Keratosis, however, is typically a precancerous condition that can sometimes become more serious if left untreated.",,,
+6/29/2026 15:48,A patient with a history of previous skin cancer develops a new lesion on the back with color changes. What skin cancer has previous skin cancer and UV exposure as risk factors?,Melanoma,skincancer-llama,TRUE,0,7.67,0.0358,3.19,44.53,55.43,TRUE,33,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Given the patient's history of previous skin cancer and current lesion characteristics, Melanoma is a possible diagnosis. Risk factors like UV exposure increase the likelihood of developing this aggressive form of skin cancer.",,,
+6/29/2026 15:48,A patient with a history of previous skin cancer develops a new lesion on the back with color changes. What skin cancer has previous skin cancer and UV exposure as risk factors?,Melanoma,medgemma-original,TRUE,0,15.65,0.6331,8.13,27.44,51.86,TRUE,68,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Given the patient's history of skin cancer and UV exposure, it is important to consider their risk factors. Actinic Keratosis, Basal Cell Carcinoma, Melanoma, and Squamous Cell Carcinoma are all types of skin cancers that can develop due to sun damage. It would be best for a healthcare provider to examine the new lesion on the back and determine if it is cancerous, benign, or needs further investigation.",,,
+6/29/2026 16:22,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,llama3.2,TRUE,0,4.8,0.0172,3.74,7.9,16.45,TRUE,72,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","For basal cell carcinoma on the face, there are several treatment options. These include Mohs surgery, which is a precise surgical technique that removes the cancerous tissue while sparing surrounding healthy skin; Surgical excision, where the entire lesion and some surrounding tissue may need to be removed; Radiation therapy, which uses high-energy rays to kill cancer cells; and Cryotherapy, also known as cryopexy, where liquid nitrogen freezes and destroys the cancerous cells.",,,
+6/29/2026 16:22,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,skincancer-llama,TRUE,0,7.33,0.0138,4.17,38.27,49.79,TRUE,55,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","The patient's basal cell carcinoma on her face can be treated with various methods. Cryotherapy involves freezing the cancer cells to kill them, while Mohs surgery removes the tumor layer by layer to ensure complete removal. Radiation therapy uses high-energy rays to destroy the cancer cells, and surgical excision involves surgically removing the entire lesion.",,,
+6/29/2026 16:22,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,medgemma-original,TRUE,0,7.87,0.5775,3.84,49.47,61.76,TRUE,56,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","For basal cell carcinoma on her face, we have several options: cryotherapy (freezing), Mohs surgery (removing and examining tissue layer by layer), radiation therapy (using targeted energy to kill cancer cells), and surgical excision (cutting out the tumor). The best choice depends on where the lesion is located, its size, and how deeply it has grown.",,,
+6/29/2026 16:25,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,llama3.2,FALSE,2,36.64,0.7464,0,,37.38,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,,,"detected type mismatch, rule based"
+6/29/2026 16:25,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,skincancer-llama,FALSE,2,28.59,0.0681,0,,28.66,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,,,
+6/29/2026 16:25,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,medgemma-original,FALSE,2,28.03,0.0841,0,,28.11,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,,,
+6/29/2026 16:33,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,llama3.2,FALSE,2,25.7,0.121,0,,25.82,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,,,
+6/29/2026 16:33,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,skincancer-llama,FALSE,2,26.34,0.0368,0,,26.38,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,,,
+6/29/2026 16:33,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,medgemma-original,FALSE,2,27.12,0.0496,0,,27.17,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,,,
+6/29/2026 16:38,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,llama3.2,TRUE,0,7.58,0.0165,9.1,9.84,26.53,TRUE,61,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","For a definitive diagnosis of basal cell carcinoma, a Biopsy is the most reliable method. This involves taking a small sample of tissue from the suspicious lesion and examining it under a microscope to confirm the presence of cancer cells. A Visual Examination by the doctor or dermatologist may also be performed initially, but a biopsy provides a more accurate answer.",,,
+6/29/2026 16:38,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,skincancer-llama,TRUE,1,15.71,0.0294,5.69,41.6,63.02,TRUE,44,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","To confirm the diagnosis of basal cell carcinoma, a biopsy is performed. This involves removing a sample of tissue from the affected area and examining it under a microscope for cancerous cells. The biopsy results will provide a definitive diagnosis and guide treatment options.",,,
+6/29/2026 16:38,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,medgemma-original,TRUE,0,12.38,0.5409,3.47,27.75,44.14,TRUE,38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","To confirm if it's basal cell carcinoma, a biopsy is needed. This involves taking a small sample of the lesion for examination under a microscope by a pathologist. Visual examination alone isn't enough to make a definitive diagnosis.",,,
+6/29/2026 16:40,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,llama3.2,TRUE,0,10.19,0.5652,12.32,10.62,33.69,FALSE,72,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","When it comes to basal cell carcinoma, smoking is not typically considered a direct risk factor. However, smoking can increase the risk of developing other types of skin cancers, such as actinic keratosis and squamous cell carcinoma. It's still essential for this patient to discuss sun protection measures with her doctor, as exposure to UV radiation from the sun or tanning beds is a more significant risk factor for basal cell carcinoma.",,,
+6/29/2026 16:40,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,skincancer-llama,TRUE,0,5.29,0.0567,3.35,36.34,45.04,FALSE,57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Smoking is not typically considered a direct risk factor for Basal Cell Carcinoma. While certain environmental factors like ultraviolet radiation and a history of sun exposure play a major role in developing this type of skin cancer, other lifestyle choices such as smoking may contribute to overall health risks that can increase the likelihood of certain cancers.",,,
+6/29/2026 16:40,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,medgemma-original,TRUE,0,8.76,0.767,4,20.11,33.63,FALSE,45,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Yes, smoking is considered a risk factor for basal cell carcinoma. It's one of several factors that can increase your chance of developing this type of skin cancer. Actinic keratosis, melanoma and squamous cell carcinoma are also linked to smoking, though they have different characteristics.",,,
+6/29/2026 16:49,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,llama3.2,TRUE,0,4.63,0.0158,3.88,9.8,18.33,TRUE,57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma","When a doctor examines a suspicious mole using dermoscopy, they are often trying to determine if it's melanoma. Melanoma is a type of skin cancer that originates from pigment cells called melanocytes. The doctor may use dermoscopy to look for signs such as irregular borders and color changes in the mole, which can be indicators of melanoma.",,,
+6/29/2026 16:49,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,skincancer-llama,TRUE,0,5.18,0.0135,3.81,33.95,42.95,TRUE,45,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma","Dermoscopy is a tool used by doctors to closely examine suspicious skin lesions. When it reveals concerning features, a biopsy is often performed to diagnose cancer. In this case, the mole was suspected of being melanoma or squamous cell carcinoma, and further investigation is needed.",,,
+6/29/2026 16:49,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,medgemma-original,TRUE,0,6.53,0.3177,3.41,27.28,37.53,TRUE,25,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma",The doctor is looking for melanoma and squamous cell carcinoma using dermoscopy. These are two types of skin cancer that can appear as suspicious moles.,,,
+6/29/2026 16:55,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,llama3.2,TRUE,0,4.62,0.015,3.29,9.49,17.42,TRUE,66,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal cell carcinoma is the most commonly treated skin cancer with Mohs surgery. This type of surgery involves removing layers of tissue to ensure that all cancerous cells are removed, and it's often used for tumors on the face, especially around the eyes. Mohs surgery allows for precise removal while preserving as much healthy tissue as possible, which can help preserve the patient's appearance and function.",,,
+6/29/2026 16:55,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,skincancer-llama,TRUE,0,5.2,0.0292,3.76,37.69,46.68,TRUE,49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal Cell Carcinoma is the most common type of skin cancer that often requires Mohs surgery. This specialized procedure involves removing the cancerous cells while preserving healthy tissue, ensuring a precise and complete removal of the disease. By doing so, it helps to minimize scarring and improve patient outcomes.",,,
+6/29/2026 16:55,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,medgemma-original,TRUE,0,6.95,0.5483,3.17,28.67,39.35,TRUE,57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,Basal cell carcinoma is the most common type of skin cancer treated with Mohs surgery. This technique involves removing thin layers of skin and examining them under a microscope to ensure all cancerous cells are removed while preserving healthy tissue. It's particularly useful for basal cell carcinomas that are located in sensitive areas or have aggressive features.,,,
+6/29/2026 16:59,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,llama3.2,FALSE,2,40.76,0.668,0,,41.43,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,,,
+6/29/2026 16:59,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,skincancer-llama,FALSE,2,41.03,0.1151,0,,41.14,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,,,
+6/29/2026 16:59,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,medgemma-original,FALSE,2,40.68,0.0614,0,,40.74,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,,,
+6/29/2026 17:23,"A 73-year-old patient has a lesion on the face with itching, bleeding and elevation. What type of skin cancer commonly appears on the face with these symptoms?",BasalCellCarcinoma,medgemma-skincancer,FALSE,2,37.21,0.0712,0,,37.28,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE{
+    ?cancer sc:commonlyFoundOn sc:Face .
+    ?cancer sc:hasSymptom sc:Itching .
+    ?cancer sc:hasSymptom sc:Bleeding .
+    ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,,,
+6/29/2026 17:24,"A patient who smokes has a growing, itchy lesion on the nose. Smoking is a known risk factor for which skin cancer?",SquamousCellCarcinoma,medgemma-skincancer,TRUE,0,6.84,0.0155,10.62,66.92,84.39,TRUE,49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"Given the patient's history of smoking and the description of an itchy lesion on the nose, Squamous Cell Carcinoma is a concerning possibility. This type of skin cancer can arise from sun exposure but also has other risk factors including tobacco use. Further investigation is warranted for this diagnosis.",,,
+6/29/2026 17:25,A patient with a history of previous skin cancer develops a new lesion on the back with color changes. What skin cancer has previous skin cancer and UV exposure as risk factors?,Melanoma,medgemma-skincancer,TRUE,0,19.1,0.6347,17.28,32.26,69.28,TRUE,45,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Given the patient's history of previous skin cancer and risk factors like UV exposure, Actinic Keratosis is a likely diagnosis for this new lesion on her back. These pre-cancerous growths often appear as rough patches but can develop into squamous cell carcinoma if left untreated.",,,
+6/29/2026 17:26,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,medgemma-skincancer,TRUE,0,15.03,0.6353,19.34,34.63,69.64,TRUE,43,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is often treated with surgical excision to completely remove the cancerous cells and prevent recurrence. Other options include Mohs surgery for precise removal of invasive types, cryotherapy for superficial lesions, or radiation therapy in certain cases where surgery isn't suitable.",,,
+6/29/2026 17:28,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,medgemma-skincancer,FALSE,2,36.68,1.3175,0,,38,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,,,
+6/29/2026 17:28,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,medgemma-skincancer,FALSE,2,37.03,0.7093,0,,37.75,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,,,
+6/29/2026 17:29,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,medgemma-skincancer,TRUE,0,11.92,0.2047,22.54,36.15,70.81,TRUE,42,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","Given the patient's symptoms and risk factors, Basal Cell Carcinoma is suspected. A biopsy is the definitive diagnostic procedure to confirm the presence of cancer cells in the lesion. This will help determine the exact type and extent of the skin cancer.",,,
+6/29/2026 17:30,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,medgemma-skincancer,TRUE,0,15.67,0.7958,17.39,37.02,70.88,FALSE,49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Smoking is not a direct risk factor for Basal Cell Carcinoma (BCC). BCC is primarily caused by prolonged sun exposure and genetic predisposition. While smoking can increase the risk of certain cancers like Squamous Cell Carcinoma and Melanoma, it's less directly linked to BCC compared to these other types.",,,
+6/29/2026 17:31,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,medgemma-skincancer,TRUE,0,16.38,0.6673,16.48,33.89,67.42,TRUE,47,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma","Dermoscopy is used to examine skin lesions for suspicious features that might indicate melanoma. Melanoma is a serious form of skin cancer arising from melanocytes and often presents with irregular borders, varied color, and asymmetrical patterns. Early detection through dermoscopy can improve the chances of successful treatment.",,,
+6/29/2026 17:32,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,medgemma-skincancer,TRUE,0,17.39,0.6463,52.56,38.67,109.27,TRUE,54,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal Cell Carcinoma (BCC) is an extremely common type of skin cancer that often appears on sun-exposed areas like the nose and ears. Mohs surgery is frequently used for BCC because it offers excellent cure rates while preserving healthy tissue, especially when the tumor borders sensitive structures or has a high risk of recurrence.",,,
+6/29/2026 17:34,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,medgemma-skincancer,FALSE,2,146.46,2.1099,0,,148.58,FALSE,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,,,

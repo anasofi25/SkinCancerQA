@@ -2,8 +2,10 @@ import ollama
 
 MODEL = "llama3.2"
 
-#rule based
+
 def is_wrong_type(question, results):
+    """Rule-based check for obvious type mismatches between question intent
+    and returned results — runs instantly without calling the LLM."""
     q = question.lower()
     result_words = [w.strip().lower() for w in results.split("\n") if w.strip()]
 
@@ -16,19 +18,19 @@ def is_wrong_type(question, results):
     if "treat" in q and result_set & diagnosis_terms:
         return True
 
-    if "diagnos" in q and result_set & treatment_terms:
+    if "diagnos" in q and "diagnosed as" not in q and result_set & treatment_terms:
         return True
 
     return False
 
-#llm
-def validate_results(user_question, sparql_query, formatted_results):
 
-    # Hard rule check first
+def validate_results(user_question, sparql_query, formatted_results):
+    """Two-layer validator: rule-based check first, then LLM-based
+    semantic validation if the rules pass."""
+
     if is_wrong_type(user_question, formatted_results):
         return False, "Detected type mismatch (rule-based)", "RULE_FAIL"
 
-    #Normalize results
     results_list = [
         r.strip() for r in formatted_results.split("\n") if r.strip()
     ]
@@ -36,7 +38,6 @@ def validate_results(user_question, sparql_query, formatted_results):
     if not results_list or "no results found" in formatted_results.lower():
         return False, "Empty result set", "RULE_FAIL"
 
-    # LLM validation
     prompt = f"""
 Question: "{user_question}"
 Results: {formatted_results}
@@ -85,6 +86,8 @@ REASON: one sentence
 
     answer = response['message']['content'].strip()
 
+    # Check only the first line to avoid false negatives from models that
+    # add explanatory text after the verdict
     first_line = answer.split("\n")[0].lower()
     is_valid = "valid: yes" in first_line
 
@@ -95,90 +98,66 @@ REASON: one sentence
     return is_valid, reason, answer
 
 
-#test
 if __name__ == "__main__":
-
+    # Regression tests covering the main validation scenarios
     tests = [
         {
             "name": "Test 1 - Correct results (should be VALID)",
             "question": "What are the symptoms of melanoma?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }",
             "results": "Asymmetry\nBleeding\nColorVariation\nDiameterChange\nIrregularBorder",
             "expected": True
         },
         {
             "name": "Test 2 - Empty results (should be INVALID)",
             "question": "How is skin cancer diagnosed?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?method WHERE { sc:SkinCancer sc:diagnosedBy ?method }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?method WHERE { sc:SkinCancer sc:diagnosedBy ?method }",
             "results": "No results found",
             "expected": False
         },
         {
             "name": "Test 3 - Wrong property used (should be INVALID)",
             "question": "How is melanoma treated?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }",
             "results": "Biopsy\nDermoscopy",
             "expected": False
         },
         {
             "name": "Test 4 - Correct reverse lookup (should be VALID)",
             "question": "Which cancers are treated with immunotherapy?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }",
             "results": "Melanoma",
             "expected": True
         },
         {
             "name": "Test 5 - Correct risk factor lookup (should be VALID)",
             "question": "Which cancers have UV exposure as a risk factor?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }",
             "results": "Melanoma\nBasalCellCarcinoma\nSquamousCellCarcinoma\nActinicKeratosis",
             "expected": True
         },
         {
             "name": "Test 6 - Treatment question with correct results (should be VALID)",
             "question": "How is melanoma treated?",
-            "sparql": """PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
-SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }""",
+            "sparql": "PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>\nSELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }",
             "results": "Chemotherapy\nImmunotherapy\nSurgicalExcision",
             "expected": True
         },
     ]
 
     passed = 0
-    failed = 0
-
     for test in tests:
         print(f"\n{test['name']}")
-        print(f"Question: {test['question']}")
-        print(f"Results:\n{test['results']}")
-
         is_valid, reason, raw = validate_results(
-            test["question"],
-            test["sparql"],
-            test["results"]
+            test["question"], test["sparql"], test["results"]
         )
-
-        result_match = is_valid == test["expected"]
-        status = " PASSED" if result_match else " FAILED"
-
-        if result_match:
-            passed += 1
-        else:
-            failed += 1
-
-        print(f"Expected: {'VALID' if test['expected'] else 'INVALID'}")
-        print(f"Got: {'VALID' if is_valid else 'INVALID'}")
+        ok = is_valid == test["expected"]
+        passed += ok
+        print(f"  Expected: {'VALID' if test['expected'] else 'INVALID'} | "
+              f"Got: {'VALID' if is_valid else 'INVALID'} | "
+              f"{'PASSED' if ok else 'FAILED'}")
         if reason:
-            print(f"Reason: {reason}")
-        print(f"Raw: {raw}")
-        print(f"Status: {status}")
-        print("-" * 50)
+            print(f"  Reason: {reason}")
 
     print(f"\n{'='*50}")
     print(f"Results: {passed}/{len(tests)} tests passed")
-    print(f"{'='*50}")

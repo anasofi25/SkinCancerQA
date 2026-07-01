@@ -28,6 +28,7 @@ DISPLAY_NAMES = {
     "llama3.2": "Llama 3.2 (base)",
     "skincancer-llama": "Skin Cancer Llama (fine-tuned)",
     "medgemma-skincancer": "MedGemma Skin Cancer (LM Studio)",
+    "medgemma-original": "MedGemma (base)",
 }
 
 col1, col2 = st.columns([2, 1])
@@ -58,11 +59,18 @@ with col1:
 
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
+                history = []
+                msgs = st.session_state.messages[:-1]
+                for i in range(0, len(msgs) - 1, 2):
+                    if msgs[i]["role"] == "user" and msgs[i + 1]["role"] == "assistant":
+                        history.append((msgs[i]["content"], msgs[i + 1]["content"]))
+
                 sparql, results, answer = run_pipeline_with_timeout(
                     question,
                     max_retries=2,
-                    timeout_seconds=120,
+                    timeout_seconds=400,
                     agent3_model=st.session_state.agent3_model,
+                    history=history,
                 )
 
             if answer:

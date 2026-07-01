@@ -1,0 +1,614 @@
+timestamp,question,expected_keyword,model,valid,retries,agent1_time,graphdb_time,agent2_time,agent3_time,total_time,keyword_hit,answer_length_words,sparql,raw_results,answer,debug_note,ground_truth,prediction,classification
+6/30/2026 13:09,A 46-year-old woman has a mole on her face that has been itching and visibly changing color over the past few months. What type of skin cancer could this be?,Melanoma,llama3.2,False,2,76.1,0.3478,0.0,,76.45,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                  ?cancer sc:hasSymptom sc:Itching .
+                  ?cancer sc:hasSymptom sc:Bleeding .
+                  ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:11,A 78-year-old male smoker with a history of previous skin cancer has developed a growing lesion on his back that has changed in appearance. What skin cancer has UV exposure and previous skin cancer as risk factors?,Melanoma,llama3.2,True,0,17.11,0.0312,13.19,10.97,41.3,False,84,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",BasalCellCarcinoma,"Based on the patient's history of previous skin cancer and UV exposure, which is often associated with smoking, it's likely that he has developed another type of skin cancer called Basal Cell Carcinoma. This is because his body is more susceptible to developing skin cancers due to repeated sun damage from UV exposure, and his smoking history can also increase the risk. Unfortunately, basal cell carcinoma is a common form of skin cancer that often appears as new or changing growths on the skin.",,False,True,FP
+6/30/2026 13:11,"A 55-year-old woman with a history of skin cancer presents with an itchy, bleeding, raised lesion on her neck. What type of skin cancer commonly appears on the neck?",BasalCellCarcinoma,llama3.2,True,0,6.56,0.0316,10.33,9.5,26.43,True,67,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Neck }","BasalCellCarcinoma
+SquamousCellCarcinoma","When it comes to skin cancers that appear on the neck, Squamous Cell Carcinoma is more common than Basal Cell Carcinoma. This type of skin cancer often grows slowly and appears as a firm, raised, or scaly patch with visible blood vessels. The neck is a frequent location for these lesions, especially in people who have had previous skin cancers or are exposed to the sun frequently.",,True,True,TP
+6/30/2026 13:12,"A 79-year-old man with very fair skin has a raised, itchy lesion on his forearm that bleeds occasionally. What skin cancers are associated with fair skin as a risk factor?",BasalCellCarcinoma,llama3.2,True,0,13.16,0.0157,10.28,10.43,33.89,True,81,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma","In someone with very fair skin like this man, we're more concerned about certain types of skin cancers that are linked to increased UV exposure. Actinic keratosis is a type of abnormal skin cell growth that's often found in people who spend too much time outdoors without sun protection. The most concerning one for him would be melanoma and basal cell carcinoma - two aggressive forms of skin cancer that can develop into something more serious if not treated early on.",,True,True,TP
+6/30/2026 13:12,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,llama3.2,True,0,7.71,0.0424,10.77,9.27,27.8,True,71,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","For basal cell carcinoma on the face, treatment options are generally considered based on the location and size of the tumor. Cryotherapy is often used for smaller lesions, Mohs surgery is preferred for larger tumors or those in sensitive areas like the face, radiation therapy may be recommended for lesions that cannot be removed surgically, and surgical excision is typically the go-to option for most basal cell carcinomas on the face.",,True,True,TP
+6/30/2026 13:13,"A 67-year-old male smoker presents with an itchy, growing, raised lesion. Smoking is a known risk factor for which type of skin cancer?",SquamousCellCarcinoma,llama3.2,True,0,7.37,0.0139,12.2,8.24,27.82,True,54,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"This patient's symptoms and risk factors point towards Squamous Cell Carcinoma. As you know, smoking is a significant risk factor for this type of skin cancer, which often appears on sun-exposed areas like the face, ears, or lips. Regular skin exams are crucial for early detection and treatment to prevent this condition from progressing.",,True,True,TP
+6/30/2026 13:13,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,llama3.2,False,2,19.48,0.0811,0.0,,19.56,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,"GraphDB DID return results (Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy...) but Agent 2 rejected them — mismatch between results and question intent (reason: Detected type mismatch (rule-based)).",True,False,FN
+6/30/2026 13:14,"A 77-year-old patient has a rough, persistently itchy patch on their face that does not heal. What condition does this suggest and how is it typically treated?",Cryotherapy,llama3.2,False,2,40.09,0.0853,12.79,,52.96,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:treatedWith | sc:diagnosedBy) ?treatment
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:commonlyFoundOn sc:Face .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:14,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,llama3.2,False,2,26.07,0.0836,0.0,,26.16,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:15,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,llama3.2,True,0,7.5,0.0186,10.24,7.88,25.65,True,69,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","For a definitive diagnosis of basal cell carcinoma, a biopsy is the most reliable method. This involves taking a small sample of tissue from the lesion and examining it under a microscope to look for abnormal cells. A visual examination by an experienced doctor can also provide some clues about the type of skin cancer, but a biopsy is essential to confirm the diagnosis of basal cell carcinoma specifically.",,True,True,TP
+6/30/2026 13:15,A 67-year-old male smoker has a lesion on his ear. What skin cancers commonly appear on the ear?,SquamousCellCarcinoma,llama3.2,False,2,17.87,0.041,0.0,,17.91,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Ear }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:16,A 68-year-old patient has a lesion on the forearm. What skin cancers are commonly found on the forearm?,ActinicKeratosis,llama3.2,False,2,18.07,0.0839,0.0,,18.15,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Forearm }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:16,A 23-year-old patient has a pigmented lesion on the face that has not changed. Could this be a nevus and is it dangerous?,Melanoma,llama3.2,False,2,37.02,0.0781,13.02,,50.12,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:hasSymptom | sc:hasRiskFactor | sc:treatedWith | sc:diagnosedBy) ?symptom
+WHERE {
+  ?symptom rdfs:label ""nevus"" .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:17,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,llama3.2,True,0,6.86,0.0337,12.41,8.51,27.81,False,54,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Smoking is indeed a risk factor for Basal Cell Carcinoma. However, it's worth noting that smoking is more strongly linked to Squamous Cell Carcinoma and Melanoma. While the exact cause of basal cell carcinoma can be complex, smoking may contribute to its development by increasing damage from the sun's ultraviolet rays on the skin.",,False,True,FP
+6/30/2026 13:17,A patient has a lesion that bleeds. Which skin cancers have bleeding as a symptom?,Melanoma,llama3.2,True,0,6.35,0.0159,11.29,9.59,27.25,True,73,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasSymptom sc:Bleeding }","BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","When it comes to skin cancers that can cause bleeding, Squamous Cell Carcinoma is one of the types that commonly presents with this symptom. Another possibility is Melanoma, especially if the bleeding is from a new or changing mole. Basal Cell Carcinoma typically doesn't bleed unless it's very aggressive or has metastasized to other parts of the body, so this type is less likely to be the cause of bleeding in most cases.",,True,True,TP
+6/30/2026 13:18,What is skin cancer and how dangerous is it?,Melanoma,llama3.2,False,2,30.41,0.1019,0.0,,30.51,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?danger WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasDanger ?danger
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:18,A 78-year-old man who smokes and has had skin cancer before develops a lesion on his back. Which cancer has both smoking and previous skin cancer as risk factors?,Melanoma,llama3.2,False,2,30.04,0.0813,0.0,,30.12,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:Smoking .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:19,"A 55-year-old woman has an itchy, bleeding, raised lesion on her neck. What skin cancer appears on the neck with these symptoms?",BasalCellCarcinoma,llama3.2,False,2,32.05,0.0985,0.0,,32.15,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE{
+    ?cancer sc:commonlyFoundOn sc:Face .
+    ?cancer sc:hasSymptom sc:Itching .
+    ?cancer sc:hasSymptom sc:Bleeding .
+    ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:19,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,llama3.2,True,0,6.78,0.0296,10.43,10.04,27.28,True,75,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma","When a doctor uses dermoscopy to examine a suspicious mole, they are typically looking for signs of Melanoma. This type of skin cancer is often diagnosed through this procedure because it allows the doctor to get a closer look at the mole's structure and color, making it easier to spot any abnormal growths or changes. Squamous Cell Carcinoma can also be identified using dermoscopy, but Melanoma is the most commonly diagnosed type in this way.",,True,True,TP
+6/30/2026 13:20,A 62-year-old female smoker has a lesion on her chest. Which skin cancers are associated with smoking?,SquamousCellCarcinoma,llama3.2,True,0,6.8,0.0211,10.29,9.44,26.54,True,72,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"In this case, I'd like to clarify that Squamous Cell Carcinoma (SCC) is indeed associated with smoking. However, it's worth noting that SCC can also be linked to other factors such as exposure to the sun and human papillomavirus (HPV). The American Cancer Society suggests that smokers are at higher risk of developing SCC on areas of the body frequently exposed to the sun, like the skin on their chest or arms.",,True,True,TP
+6/30/2026 13:20,"A 77-year-old patient has a persistent rough patch on the face that won't go away. Without knowing the diagnosis, what treatments exist for precancerous skin lesions?",Cryotherapy,llama3.2,False,2,36.29,0.1066,0.0,,36.39,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                         ?cancer sc:hasSymptom sc:Itching .
+                         ?cancer sc:hasSymptom sc:Elevation .
+                         ?cancer sc:hasRiskFactor sc:FairSkin .
+                         ?cancer sc:hasRiskFactor sc:UVExposure .
+                         ?treatment sc:treatedWith ?cancer }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:21,"A 65-year-old patient has a rough, dark lesion on the face that looks like it could be cancerous. How would a doctor confirm whether this is malignant?",Biopsy,llama3.2,True,1,13.74,0.0553,21.22,12.3,47.32,True,104,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face . }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","To confirm whether this lesion is malignant, the doctor will likely perform a biopsy, which involves removing a small sample of tissue from the skin and examining it under a microscope. If the biopsy shows that the lesion is Actinic Keratosis or Basal Cell Carcinoma, these are generally considered to be non-cancerous growths that can often be treated with topical creams or minor surgery. However, if the biopsy reveals Squamous Cell Carcinoma, which has a higher risk of spreading and causing serious health problems, further testing such as imaging studies may be ordered to stage the cancer and determine the best course of treatment.",,False,True,FP
+6/30/2026 13:22,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,llama3.2,False,2,36.62,0.1083,0.0,,36.73,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:22,What is the survival rate for melanoma?,Melanoma,llama3.2,True,1,16.86,0.0452,8.92,10.17,35.99,True,77,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?survivalRate WHERE { ?cancer sc:hasSymptom ?symptom .
+                            ?symptom rdfs:label ""Survival Rate"" .
+                            ?cancer sc:Melanoma }",Error: 400,"I apologize for the error earlier. Unfortunately, I don't have the most up-to-date information on the survival rate for melanoma. However, I can tell you that early detection and treatment are crucial in improving outcomes for patients with melanoma. According to recent studies, if diagnosed at an early stage (Stage IA), the 5-year survival rate for melanoma is around 92%, but this can vary depending on several factors such as tumor thickness, location, and patient's overall health.",,False,True,FP
+6/30/2026 13:23,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,llama3.2,True,0,6.81,0.0296,9.42,8.45,24.71,True,65,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal cell carcinoma is the most common type of skin cancer that's often treated with Mohs surgery. This procedure involves removing the cancerous cells layer by layer, examining each one under a microscope until all cancer-free tissue has been removed. By doing so, the surgeon can precisely remove only the affected area, minimizing damage to surrounding healthy tissue and preserving more of the patient's skin.",,True,True,TP
+6/30/2026 13:23,A 46-year-old woman has a mole on her face that has been itching and visibly changing color over the past few months. What type of skin cancer could this be?,Melanoma,skincancer-llama,False,2,31.68,0.1115,0.0,,31.79,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                  ?cancer sc:hasSymptom sc:Itching .
+                  ?cancer sc:hasSymptom sc:Bleeding .
+                  ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:24,A 78-year-old male smoker with a history of previous skin cancer has developed a growing lesion on his back that has changed in appearance. What skin cancer has UV exposure and previous skin cancer as risk factors?,Melanoma,skincancer-llama,True,0,10.99,0.0215,3.48,45.6,60.09,False,57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",BasalCellCarcinoma,"This patient's risk factors of UV exposure, age, smoking, and previous skin cancer increase his likelihood of developing Basal Cell Carcinoma. This common type of skin cancer often appears as a pearly or waxy bump, a flat flesh-colored or brown scar-like lesion, or a sore that doesn't heal. Early detection and treatment are important for successful outcomes.",,False,True,FP
+6/30/2026 13:25,"A 55-year-old woman with a history of skin cancer presents with an itchy, bleeding, raised lesion on her neck. What type of skin cancer commonly appears on the neck?",BasalCellCarcinoma,skincancer-llama,True,0,9.72,0.2486,2.99,15.32,28.28,True,44,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Neck }","BasalCellCarcinoma
+SquamousCellCarcinoma","The patient's itchy, bleeding, and elevated lesion on her neck is highly suspicious for Squamous Cell Carcinoma. Given her history of previous skin cancer, this diagnosis is strongly considered. This type of skin cancer can arise from chronic sun exposure or other risk factors.",,True,True,TP
+6/30/2026 13:25,"A 79-year-old man with very fair skin has a raised, itchy lesion on his forearm that bleeds occasionally. What skin cancers are associated with fair skin as a risk factor?",BasalCellCarcinoma,skincancer-llama,True,0,9.69,0.0682,2.46,17.51,29.73,True,48,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma","This patient's symptoms of itching, bleeding, and elevation on the forearm, combined with his fair skin and age, are concerning for skin cancers. Actinic Keratosis is a pre-cancerous lesion that can develop into Basal Cell Carcinoma or Melanoma, highlighting the importance of monitoring this type of skin growth.",,True,True,TP
+6/30/2026 13:26,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,skincancer-llama,True,0,7.74,0.0363,2.49,16.53,26.8,True,54,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","The patient has been diagnosed with basal cell carcinoma, a common type of skin cancer. Given the location and characteristics of the lesion, treatment options include Mohs surgery, radiation therapy, or surgical excision to ensure complete removal of the cancerous cells. Each of these procedures will be carefully considered for the best possible outcome.",,True,True,TP
+6/30/2026 13:26,"A 67-year-old male smoker presents with an itchy, growing, raised lesion. Smoking is a known risk factor for which type of skin cancer?",SquamousCellCarcinoma,skincancer-llama,True,0,7.22,0.0296,3.29,15.12,25.67,True,46,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"This patient's risk factors, including age and smoking, increase his likelihood of developing Squamous Cell Carcinoma. This type of skin cancer often presents as a persistent, growing sore or scaly patch that may become tender or infected. Early detection and treatment are important for successful outcomes.",,True,True,TP
+6/30/2026 13:27,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,skincancer-llama,False,2,20.8,0.1044,0.0,,20.9,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,"GraphDB DID return results (Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy...) but Agent 2 rejected them — mismatch between results and question intent (reason: Detected type mismatch (rule-based)).",True,False,FN
+6/30/2026 13:27,"A 77-year-old patient has a rough, persistently itchy patch on their face that does not heal. What condition does this suggest and how is it typically treated?",Cryotherapy,skincancer-llama,True,2,41.61,0.1172,5.77,16.2,63.7,True,44,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:treatedWith | sc:diagnosedBy) ?treatment
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:commonlyFoundOn sc:Face .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,"The description of an itchy, persistent facial lesion that does not heal in a 77-year-old patient is highly suggestive of Actinic Keratosis. This pre-cancerous condition arises from prolonged sun exposure and can be treated with methods such as cryotherapy, topical medications, or surgical excision.",,False,True,FP
+6/30/2026 13:28,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,skincancer-llama,False,2,27.84,0.0901,0.0,,27.93,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:28,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,skincancer-llama,True,0,8.23,0.0361,2.98,15.35,26.6,True,53,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","To confirm the diagnosis of basal cell carcinoma on the patient's face, a biopsy is the definitive diagnostic method. This involves removing a sample of tissue from the lesion and examining it under a microscope for cancerous cells. The biopsy results will clearly indicate whether the patient has basal cell carcinoma or not.",,True,True,TP
+6/30/2026 13:29,A 67-year-old male smoker has a lesion on his ear. What skin cancers commonly appear on the ear?,SquamousCellCarcinoma,skincancer-llama,False,2,18.69,0.0985,0.0,,18.79,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Ear }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:29,A 68-year-old patient has a lesion on the forearm. What skin cancers are commonly found on the forearm?,ActinicKeratosis,skincancer-llama,False,2,18.81,0.0846,0.0,,18.9,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Forearm }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:29,A 23-year-old patient has a pigmented lesion on the face that has not changed. Could this be a nevus and is it dangerous?,Melanoma,skincancer-llama,False,2,37.12,0.094,5.26,,42.47,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:hasSymptom | sc:hasRiskFactor | sc:treatedWith | sc:diagnosedBy) ?symptom
+WHERE {
+  ?symptom rdfs:label ""nevus"" .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:30,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,skincancer-llama,True,0,7.0,0.0296,3.18,14.28,24.48,False,43,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","The patient's Basal Cell Carcinoma is not directly caused by smoking. While risk factors like cumulative sun exposure are common for this type of skin cancer, other factors can contribute to its development. Further evaluation and management are necessary to ensure complete recovery.",,False,True,FP
+6/30/2026 13:31,A patient has a lesion that bleeds. Which skin cancers have bleeding as a symptom?,Melanoma,skincancer-llama,True,0,6.89,0.0344,3.83,15.99,26.74,True,50,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasSymptom sc:Bleeding }","BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Bleeding is a concerning symptom that can be associated with various skin cancers. While it's not exclusive to any one type, Melanoma and Squamous Cell Carcinoma are both known to sometimes present with this symptom. It's essential to monitor any changing lesions or those that bleed easily in these patients.",,True,True,TP
+6/30/2026 13:31,What is skin cancer and how dangerous is it?,Melanoma,skincancer-llama,False,2,30.8,0.0812,0.0,,30.89,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?danger WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasDanger ?danger
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:32,A 78-year-old man who smokes and has had skin cancer before develops a lesion on his back. Which cancer has both smoking and previous skin cancer as risk factors?,Melanoma,skincancer-llama,False,2,31.03,0.0987,0.0,,31.13,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:Smoking .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:32,"A 55-year-old woman has an itchy, bleeding, raised lesion on her neck. What skin cancer appears on the neck with these symptoms?",BasalCellCarcinoma,skincancer-llama,False,2,33.16,0.1043,0.0,,33.27,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE{
+    ?cancer sc:commonlyFoundOn sc:Face .
+    ?cancer sc:hasSymptom sc:Itching .
+    ?cancer sc:hasSymptom sc:Bleeding .
+    ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:33,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,skincancer-llama,True,0,6.99,0.0124,2.29,17.2,26.5,True,44,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma","Dermoscopy is a special tool used to closely examine moles and other skin growths. When suspicious changes are found, it often leads to a biopsy, which can diagnose Melanoma or Squamous Cell Carcinoma. These are both types of skin cancer that require different treatments.",,True,True,TP
+6/30/2026 13:33,A 62-year-old female smoker has a lesion on her chest. Which skin cancers are associated with smoking?,SquamousCellCarcinoma,skincancer-llama,True,0,8.03,0.048,3.32,15.01,26.4,True,38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"Smoking is a significant risk factor for Squamous Cell Carcinoma, a common type of skin cancer. While other factors like sun exposure play a role, smoking can increase the likelihood of developing this aggressive form of skin cancer.",,True,True,TP
+6/30/2026 13:34,"A 77-year-old patient has a persistent rough patch on the face that won't go away. Without knowing the diagnosis, what treatments exist for precancerous skin lesions?",Cryotherapy,skincancer-llama,False,2,36.81,0.1424,0.0,,36.95,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                         ?cancer sc:hasSymptom sc:Itching .
+                         ?cancer sc:hasSymptom sc:Elevation .
+                         ?cancer sc:hasRiskFactor sc:FairSkin .
+                         ?cancer sc:hasRiskFactor sc:UVExposure .
+                         ?treatment sc:treatedWith ?cancer }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:34,"A 65-year-old patient has a rough, dark lesion on the face that looks like it could be cancerous. How would a doctor confirm whether this is malignant?",Biopsy,skincancer-llama,True,1,14.86,0.0508,7.7,19.21,41.81,True,60,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face . }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","The doctor would examine the lesion and consider the patient's risk factors, such as age and sun exposure history, to determine the likelihood of malignancy. A biopsy is often performed to confirm the diagnosis, which in this case could be Actinic Keratosis or Basal Cell Carcinoma. These are common skin cancers that can appear on sun-exposed areas like the face.",,False,True,FP
+6/30/2026 13:35,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,skincancer-llama,False,2,37.93,0.1085,0.0,,38.04,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:35,What is the survival rate for melanoma?,Melanoma,skincancer-llama,True,1,17.29,0.0451,2.77,17.44,37.55,True,64,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?survivalRate WHERE { ?cancer sc:hasSymptom ?symptom .
+                            ?symptom rdfs:label ""Survival Rate"" .
+                            ?cancer sc:Melanoma }",Error: 400,"The survival rate for melanoma depends on several factors, including the thickness of the tumor and the presence of spread to other parts of the body. According to recent studies, the 5-year survival rate for patients with melanoma is around 63%, indicating that approximately two-thirds of those diagnosed with this cancer can expect to survive for at least five years after their initial diagnosis.",,False,True,FP
+6/30/2026 13:36,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,skincancer-llama,True,0,6.8,0.0228,4.19,15.34,26.36,True,50,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Mohs surgery is primarily used to treat Basal Cell Carcinoma. This type of skin cancer is common and often appears on sun-exposed areas like the face. The Mohs procedure involves removing the cancerous cells while preserving healthy tissue, making it a precise treatment for this specific type of skin cancer.",,True,True,TP
+6/30/2026 13:37,A 46-year-old woman has a mole on her face that has been itching and visibly changing color over the past few months. What type of skin cancer could this be?,Melanoma,medgemma-original,False,2,33.13,0.2418,0.0,,33.37,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                  ?cancer sc:hasSymptom sc:Itching .
+                  ?cancer sc:hasSymptom sc:Bleeding .
+                  ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:37,A 78-year-old male smoker with a history of previous skin cancer has developed a growing lesion on his back that has changed in appearance. What skin cancer has UV exposure and previous skin cancer as risk factors?,Melanoma,medgemma-original,True,0,11.34,0.021,2.71,30.05,44.13,False,49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",BasalCellCarcinoma,"Given the patient's age, smoking history, and previous skin cancer diagnosis, it sounds like he has developed Basal Cell Carcinoma (BCC). BCC is a type of skin cancer that is strongly linked to sun exposure. Because he already had one case, his risk for developing another BCC significantly increases.",,False,True,FP
+6/30/2026 13:38,"A 55-year-old woman with a history of skin cancer presents with an itchy, bleeding, raised lesion on her neck. What type of skin cancer commonly appears on the neck?",BasalCellCarcinoma,medgemma-original,True,0,9.33,0.6705,2.98,10.31,23.29,True,39,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Neck }","BasalCellCarcinoma
+SquamousCellCarcinoma","The patient's symptoms and history suggest a possible BasalCellCarcinoma or SquamousCellCarcinoma. Both are types of skin cancer that can occur on the neck area. Given the description, it's difficult to say definitively without further examination, but both are possibilities.",,True,True,TP
+6/30/2026 13:38,"A 79-year-old man with very fair skin has a raised, itchy lesion on his forearm that bleeds occasionally. What skin cancers are associated with fair skin as a risk factor?",BasalCellCarcinoma,medgemma-original,True,0,9.98,0.0676,3.47,10.35,23.86,True,47,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma","Given the patient's age and fair skin, several types of skin cancer are concerning. Actinic Keratosis can develop into Basal Cell Carcinoma, which is more common in people with light skin. Melanoma also poses a risk for those with fair complexions, especially if there is sun exposure.",,True,True,TP
+6/30/2026 13:39,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,medgemma-original,True,0,7.3,0.0403,3.44,11.64,22.42,True,53,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","For a basal cell carcinoma that is growing and bleeding on her face, we have several treatment options. These include cryotherapy, Mohs surgery, radiation therapy, and surgical excision to remove the cancerous tissue. The best choice depends on the size, location, and depth of the tumor as well as the patient's overall health.",,True,True,TP
+6/30/2026 13:39,"A 67-year-old male smoker presents with an itchy, growing, raised lesion. Smoking is a known risk factor for which type of skin cancer?",SquamousCellCarcinoma,medgemma-original,True,0,7.05,0.0534,2.66,8.83,18.6,True,38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"The patient's symptoms and smoking history strongly suggest Squamous Cell Carcinoma. This type of skin cancer is more common in smokers due to exposure to carcinogens. The growth, itchiness, and raised lesion are typical signs of this malignancy.",,True,True,TP
+6/30/2026 13:39,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,medgemma-original,False,2,20.45,0.1228,0.0,,20.57,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,"GraphDB DID return results (Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy...) but Agent 2 rejected them — mismatch between results and question intent (reason: Detected type mismatch (rule-based)).",True,False,FN
+6/30/2026 13:40,"A 77-year-old patient has a rough, persistently itchy patch on their face that does not heal. What condition does this suggest and how is it typically treated?",Cryotherapy,medgemma-original,False,2,39.74,0.1574,5.63,,45.53,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:treatedWith | sc:diagnosedBy) ?treatment
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:commonlyFoundOn sc:Face .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:40,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,medgemma-original,False,2,26.58,0.0667,0.0,,26.65,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:41,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,medgemma-original,True,0,7.46,0.0271,4.14,11.26,22.89,True,59,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination","To confirm basal cell carcinoma, your doctor will likely perform a biopsy and visual examination of the lesion. A biopsy involves taking a small sample of tissue for microscopic analysis to determine if cancer cells are present. The visual examination helps assess the size, shape, and appearance of the growth, providing additional clues about its type and potential spread.",,True,True,TP
+6/30/2026 13:41,A 67-year-old male smoker has a lesion on his ear. What skin cancers commonly appear on the ear?,SquamousCellCarcinoma,medgemma-original,False,2,19.05,0.0692,0.0,,19.12,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Ear }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:42,A 68-year-old patient has a lesion on the forearm. What skin cancers are commonly found on the forearm?,ActinicKeratosis,medgemma-original,False,2,20.42,0.1264,0.0,,20.55,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Forearm }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:42,A 23-year-old patient has a pigmented lesion on the face that has not changed. Could this be a nevus and is it dangerous?,Melanoma,medgemma-original,False,2,36.3,0.1013,5.89,,42.29,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:hasSymptom | sc:hasRiskFactor | sc:treatedWith | sc:diagnosedBy) ?symptom
+WHERE {
+  ?symptom rdfs:label ""nevus"" .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:43,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,medgemma-original,True,0,7.0,0.0254,2.66,10.57,20.26,False,51,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Yes, smoking is a known risk factor for basal cell carcinoma (BCC). Studies have shown that smokers are more likely to develop BCC compared to non-smokers. The exact mechanism isn't fully understood but it's thought that chemicals in cigarette smoke can damage skin cells and increase the risk of cancer development.",,False,True,FP
+6/30/2026 13:43,A patient has a lesion that bleeds. Which skin cancers have bleeding as a symptom?,Melanoma,medgemma-original,True,0,6.69,0.0306,3.02,9.95,19.7,True,50,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasSymptom sc:Bleeding }","BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","The lesion that is bleeding could be Basal Cell Carcinoma, Melanoma, or Squamous Cell Carcinoma. These skin cancers can bleed because they are growing and damaging the blood vessels in the skin. It's important to investigate this further with a biopsy to confirm the diagnosis and determine the appropriate treatment.",,True,True,TP
+6/30/2026 13:43,What is skin cancer and how dangerous is it?,Melanoma,medgemma-original,False,2,29.25,0.085,0.0,,29.34,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?danger WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasDanger ?danger
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:44,A 78-year-old man who smokes and has had skin cancer before develops a lesion on his back. Which cancer has both smoking and previous skin cancer as risk factors?,Melanoma,medgemma-original,False,2,29.03,0.1005,0.0,,29.13,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:Smoking .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:44,"A 55-year-old woman has an itchy, bleeding, raised lesion on her neck. What skin cancer appears on the neck with these symptoms?",BasalCellCarcinoma,medgemma-original,False,2,32.29,0.095,0.0,,32.39,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE{
+    ?cancer sc:commonlyFoundOn sc:Face .
+    ?cancer sc:hasSymptom sc:Itching .
+    ?cancer sc:hasSymptom sc:Bleeding .
+    ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:45,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,medgemma-original,True,0,7.77,0.0138,2.9,8.81,19.49,True,41,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma",The doctor is looking at the mole with a special magnifying tool called a dermatoscope. This tool helps them spot signs of melanoma and squamous cell carcinoma. These are types of skin cancer that can be found early using this technique.,,True,True,TP
+6/30/2026 13:45,A 62-year-old female smoker has a lesion on her chest. Which skin cancers are associated with smoking?,SquamousCellCarcinoma,medgemma-original,True,0,7.12,0.0136,2.83,7.95,17.91,True,38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,The lesion on her chest is likely squamous cell carcinoma. Smoking increases the risk of this type of skin cancer and others like basal cell carcinoma. It's important to investigate further with a biopsy to confirm the diagnosis.,,True,True,TP
+6/30/2026 13:45,"A 77-year-old patient has a persistent rough patch on the face that won't go away. Without knowing the diagnosis, what treatments exist for precancerous skin lesions?",Cryotherapy,medgemma-original,False,2,37.0,0.0831,0.0,,37.09,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                         ?cancer sc:hasSymptom sc:Itching .
+                         ?cancer sc:hasSymptom sc:Elevation .
+                         ?cancer sc:hasRiskFactor sc:FairSkin .
+                         ?cancer sc:hasRiskFactor sc:UVExposure .
+                         ?treatment sc:treatedWith ?cancer }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:46,"A 65-year-old patient has a rough, dark lesion on the face that looks like it could be cancerous. How would a doctor confirm whether this is malignant?",Biopsy,medgemma-original,True,1,14.37,0.0448,8.46,11.35,34.23,True,53,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face . }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","Okay, so a doctor will likely perform a biopsy to check for cancerous cells in the lesion. Based on the description of a rough, dark spot, it could be Actinic Keratosis, Basal Cell Carcinoma, or Squamous Cell Carcinoma. The biopsy results will tell them which type it is and if treatment is needed.",,False,True,FP
+6/30/2026 13:47,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,medgemma-original,False,2,37.16,0.0596,0.0,,37.22,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:47,What is the survival rate for melanoma?,Melanoma,medgemma-original,False,2,228.12,0.2559,6.58,,234.95,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?survivalRate WHERE { ?cancer sc:hasSymptom ?symptom .
+                            ?symptom rdfs:label ""Survival Rate"" .
+                            ?cancer sc:hasRiskFactor ?risk .
+                            ?risk rdfs:label ""Smoking"" .
+                            ?cancer sc:treatedWith ?treatment .
+                            ?treatment rdfs:label ""SurgicalExcision"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion .
+                            ?bodyRegion rdfs:label ""Face"" .
+                            ?cancer sc:hasSymptom ?symptom2 .
+                            ?symptom2 rdfs:label ""Elevation"" .
+                            ?cancer sc:hasRiskFactor ?risk2 .
+                            ?risk2 rdfs:label ""UVExposure"" .
+                            ?cancer sc:treatedWith ?treatment2 .
+                            ?treatment2 rdfs:label ""RadiationTherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion2 .
+                            ?bodyRegion2 rdfs:label ""Back"" .
+                            ?cancer sc:hasSymptom ?symptom3 .
+                            ?symptom3 rdfs:label ""Bleeding"" .
+                            ?cancer sc:hasRiskFactor ?risk3 .
+                            ?risk3 rdfs:label ""FairSkin"" .
+                            ?cancer sc:treatedWith ?treatment3 .
+                            ?treatment3 rdfs:label ""Chemotherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion4 .
+                            ?bodyRegion4 rdfs:label ""Arms"" .
+                            ?cancer sc:hasSymptom ?symptom4 .
+                            ?symptom4 rdfs:label ""Itching"" .
+                            ?cancer sc:hasRiskFactor ?risk4 .
+                            ?risk4 rdfs:label ""Smoking"" .
+                            ?cancer sc:treatedWith ?treatment4 .
+                            ?treatment4 rdfs:label ""Cryotherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion5 .
+                            ?bodyRegion5 rdfs:label ""Scalp"" .
+                            ?cancer sc:hasSymptom ?symptom5 .
+                            ?symptom5 rdfs:label ""ColorVariation"" .
+                            ?cancer sc:hasRiskFactor ?risk5 .
+                            ?risk5 rdfs:label ""FamilyHistory"" .
+                            ?cancer sc:treatedWith ?treatment5 .
+                            ?treatment5 rdfs:label ""MohsSurgery"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion6 .
+                            ?bodyRegion6 rdfs:label ""Legs"" .
+                            ?cancer sc:hasSymptom ?symptom6 .
+                            ?symptom6 rdfs:label ""DiameterChange"" .
+                            ?cancer sc:hasRiskFactor ?risk6 .
+                            ?risk6 rdfs:label ""UVExposure"" .
+                            ?cancer sc:treatedWith ?treatment6 .
+                            ?treatment6 rdfs:label ""TopicalTherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion7 .
+                            ?bodyRegion7 rdfs:label ""Neck"" .
+                            ?cancer sc:hasSymptom ?symptom7 .
+                            ?symptom7 rdfs:label ""IrregularBorder"" .
+                            ?cancer sc:hasRiskFactor ?risk7 .
+                            ?risk7 rdfs:label ""FairSkin"" .
+                            ?cancer sc:treatedWith ?treatment7 .
+                            ?treatment7 rdfs:label ""SurgicalExcision"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion8 .
+                            ?bodyRegion8 rdfs:label ""Back"" .
+                            ?cancer sc:hasSymptom ?symptom8 .
+                            ?symptom8 rdfs:label ""Asymmetry"" .
+                            ?cancer sc:hasRiskFactor ?risk8 .
+                            ?risk8 rdfs:label ""FamilyHistory"" .
+                            ?cancer sc:treatedWith ?treatment8 .
+                            ?treatment8 rdfs:label ""RadiationTherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion9 .
+                            ?bodyRegion9 rdfs:label ""Face"" .
+                            ?cancer sc:hasSymptom ?symptom9 .
+                            ?symptom9 rdfs:label ""Elevation"" .
+                            ?cancer sc:hasRiskFactor ?risk9 .
+                            ?risk9 rdfs:label ""UVExposure"" .
+                            ?cancer sc:treatedWith ?treatment9 .
+                            ?treatment9 rdfs:label ""Chemotherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion10 .
+                            ?bodyRegion10 rdfs:label ""Scalp"" .
+                            ?cancer sc:hasSymptom ?symptom10 .
+                            ?symptom10 rdfs:label ""ColorVariation"" .
+                            ?cancer sc:hasRiskFactor ?risk10 .
+                            ?risk10 rdfs:label ""FairSkin"" .
+                            ?cancer sc:treatedWith ?treatment10 .
+                            ?treatment10 rdfs:label ""Cryotherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion11 .
+                            ?bodyRegion11 rdfs:label ""Neck"" .
+                            ?cancer sc:hasSymptom ?symptom11 .
+                            ?symptom11 rdfs:label ""IrregularBorder"" .
+                            ?cancer sc:hasRiskFactor ?risk11 .
+                            ?risk11 rdfs:label ""FamilyHistory"" .
+                            ?cancer sc:treatedWith ?treatment11 .
+                            ?treatment11 rdfs:label ""MohsSurgery"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion12 .
+                            ?bodyRegion12 rdfs:label ""Legs"" .
+                            ?cancer sc:hasSymptom ?symptom12 .
+                            ?symptom12 rdfs:label ""Bleeding"" .
+                            ?cancer sc:hasRiskFactor ?risk12 .
+                            ?risk12 rdfs:label ""UVExposure"" .
+                            ?cancer sc:treatedWith ?treatment12 .
+                            ?treatment12 rdfs:label ""TopicalTherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion13 .
+                            ?bodyRegion13 rdfs:label ""Arms"" .
+                            ?cancer sc:hasSymptom ?symptom13 .
+                            ?symptom13 rdfs:label ""DiameterChange"" .
+                            ?cancer sc:hasRiskFactor ?risk13 .
+                            ?risk13 rdfs:label ""FairSkin"" .
+                            ?cancer sc:treatedWith ?treatment13 .
+                            ?treatment13 rdfs:label ""SurgicalExcision"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion14 .
+                            ?bodyRegion14 rdfs:label ""Scalp"" .
+                            ?cancer sc:hasSymptom ?symptom14 .
+                            ?symptom14 rdfs:label ""Asymmetry"" .
+                            ?cancer sc:hasRiskFactor ?risk14 .
+                            ?risk14 rdfs:label ""FamilyHistory"" .
+                            ?cancer sc:treatedWith ?treatment14 .
+                            ?treatment14 rdfs:label ""RadiationTherapy"" .
+                            ?cancer sc:commonlyFoundOn ?bodyRegion15 .
+                            ?bodyRegion15 rdfs:label ""Face"" .
+                            ?cancer sc:hasSymptom ?symptom15 .
+                            ?symptom15 rdfs:label ""ColorVariation"" .
+                            ?cancer sc:hasRiskFactor ?risk15 .
+                            ?risk15 rdfs:label ""UVExposure"" .
+                            ?cancer sc:treatedWith ?treatment15 .
+                            ?treatment15 rdfs:label ""Chemotherapy"" .
+                            }",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 13:51,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,medgemma-original,True,0,6.96,0.0435,2.65,10.61,20.27,True,60,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal cell carcinoma is the most common type of skin cancer treated with Mohs surgery. Mohs surgery involves removing thin layers of tissue and examining them under a microscope to ensure all cancerous cells are removed while preserving healthy skin. This technique is particularly useful for basal cell carcinoma because it allows for precise removal, minimizing damage to surrounding areas.",,True,True,TP
+6/30/2026 14:15,A 46-year-old woman has a mole on her face that has been itching and visibly changing color over the past few months. What type of skin cancer could this be?,Melanoma,medgemma-skincancer,False,2,27.53,0.0879,0.0,,27.61,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                  ?cancer sc:hasSymptom sc:Itching .
+                  ?cancer sc:hasSymptom sc:Bleeding .
+                  ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:16,A 78-year-old male smoker with a history of previous skin cancer has developed a growing lesion on his back that has changed in appearance. What skin cancer has UV exposure and previous skin cancer as risk factors?,Melanoma,medgemma-skincancer,True,0,11.77,0.025,2.93,76.13,90.86,False,55,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:UVExposure .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",BasalCellCarcinoma,"Given the patient's age, location of the lesion (back), and risk factors including smoking and previous skin cancer, Basal Cell Carcinoma is highly suspected. This type of skin cancer often presents as an evolving growth on sun-exposed areas like the back and can be aggressive if left untreated due to its propensity for local invasion.",,False,True,FP
+6/30/2026 14:17,"A 55-year-old woman with a history of skin cancer presents with an itchy, bleeding, raised lesion on her neck. What type of skin cancer commonly appears on the neck?",BasalCellCarcinoma,medgemma-skincancer,True,0,16.06,0.4626,6.26,25.38,48.17,True,38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Neck }","BasalCellCarcinoma
+SquamousCellCarcinoma","Given her symptoms and risk factors, Basal Cell Carcinoma is a likely diagnosis for this neck lesion. This type of skin cancer can present with itching, bleeding, and elevation and is common in sun-exposed areas like the neck.",,True,True,TP
+6/30/2026 14:18,"A 79-year-old man with very fair skin has a raised, itchy lesion on his forearm that bleeds occasionally. What skin cancers are associated with fair skin as a risk factor?",BasalCellCarcinoma,medgemma-skincancer,True,0,15.35,0.5084,7.49,46.09,69.44,True,64,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:FairSkin .
+}","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma","Given the patient's age and fair skin type, there is an increased risk for sun damage leading to conditions like Actinic Keratosis. These pre-cancerous lesions can sometimes develop into Basal Cell Carcinoma if left untreated. While Melanoma also requires consideration in individuals with fair skin due to its aggressive nature, it was not specifically identified as a primary concern based on the provided information.",,True,True,TP
+6/30/2026 14:19,"A 52-year-old woman has a growing, bleeding, elevated lesion on her face confirmed to be basal cell carcinoma. What treatments are available for her?",MohsSurgery,medgemma-skincancer,True,0,18.32,1.2855,11.88,32.29,63.78,True,48,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is often treated with surgical removal like Mohs surgery for precise margins. Cryotherapy may be considered depending on the tumor's characteristics and location. Radiation therapy can also be used in certain cases to destroy cancer cells, but is not always the first line of treatment.",,True,True,TP
+6/30/2026 14:20,"A 67-year-old male smoker presents with an itchy, growing, raised lesion. Smoking is a known risk factor for which type of skin cancer?",SquamousCellCarcinoma,medgemma-skincancer,True,0,24.25,0.7,5.24,31.85,62.04,True,47,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"Given the patient's age and risk factors like smoking, SquamousCellCarcinoma is a strong consideration. This type of skin cancer often presents with symptoms such as itching, growth, and elevation in affected areas. It requires appropriate diagnosis and treatment to ensure positive outcomes for patients diagnosed with it.",,True,True,TP
+6/30/2026 14:21,"A 62-year-old female smoker has an itchy, bleeding lesion on her chest diagnosed as squamous cell carcinoma. What are the available treatments?",SurgicalExcision,medgemma-skincancer,False,2,36.67,0.855,0.0,,37.53,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy",FAILED - validation,"GraphDB DID return results (Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy...) but Agent 2 rejected them — mismatch between results and question intent (reason: Detected type mismatch (rule-based)).",True,False,FN
+6/30/2026 14:22,"A 77-year-old patient has a rough, persistently itchy patch on their face that does not heal. What condition does this suggest and how is it typically treated?",Cryotherapy,medgemma-skincancer,True,1,29.57,0.5063,8.73,30.53,69.34,False,47,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:hasSymptom | sc:treatedWith) ?symptom
+WHERE {
+  ?symptom rdfs:label ""itching"" .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,The patient's symptoms of an itchy and non-healing facial lesion are concerning for Basal Cell Carcinoma. This is a common type of skin cancer that arises from the basal cells in the epidermis. Treatment often involves surgical excision to remove the cancerous tissue and prevent further spread.,,False,True,FP
+6/30/2026 14:23,"A 68-year-old patient with years of sun exposure has a scaly, itchy patch on the forearm that has been slowly changing. What skin condition is this likely to be?",ActinicKeratosis,medgemma-skincancer,False,2,38.53,0.6376,0.0,,39.17,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE {
+  ?symptom rdfs:label ""sc:Itching"" .
+  ?symptom sc:hasSymptom ?cancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:24,"A 74-year-old woman with very fair skin has a lesion on her face that itches, bleeds and appears raised. Her doctor suspects basal cell carcinoma. What diagnostic method would confirm this?",Biopsy,medgemma-skincancer,True,0,10.18,0.0588,4.89,24.17,39.31,True,34,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:BasalCellCarcinoma sc:diagnosedBy ?method }","Biopsy
+VisualExamination",The diagnosis of Basal Cell Carcinoma is confirmed by Biopsy and Visual Examination. These methods allow for direct microscopic analysis of the lesion to identify cancerous cells characteristic of this type of skin cancer.,,True,True,TP
+6/30/2026 14:25,A 67-year-old male smoker has a lesion on his ear. What skin cancers commonly appear on the ear?,SquamousCellCarcinoma,medgemma-skincancer,False,2,37.24,0.6418,0.0,,37.89,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Ear }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:25,A 68-year-old patient has a lesion on the forearm. What skin cancers are commonly found on the forearm?,ActinicKeratosis,medgemma-skincancer,False,2,25.75,0.2712,0.0,,26.02,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Forearm }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:26,A 23-year-old patient has a pigmented lesion on the face that has not changed. Could this be a nevus and is it dangerous?,Melanoma,medgemma-skincancer,False,2,45.85,0.3654,12.02,,58.24,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer (sc:hasSymptom | sc:hasRiskFactor | sc:treatedWith | sc:diagnosedBy) ?symptom
+WHERE {
+  ?symptom rdfs:label ""nevus"" .
+  ?cancer sc:commonlyFoundOn sc:Face .
+}",Error: 400,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:27,A 73-year-old woman has basal cell carcinoma on her face. Is smoking a risk factor for this condition?,UVExposure,medgemma-skincancer,True,0,8.69,0.6215,9.25,24.45,43.01,False,35,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Smoking is not directly linked to Basal Cell Carcinoma. Basal Cell Carcinoma (BCC) is primarily caused by sun exposure and genetic factors, though other risk factors can play a role depending on the specific subtype.",,False,True,FP
+6/30/2026 14:27,A patient has a lesion that bleeds. Which skin cancers have bleeding as a symptom?,Melanoma,medgemma-skincancer,True,0,12.62,0.6479,7.6,24.74,45.61,True,33,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasSymptom sc:Bleeding }","BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Bleeding can be a symptom of certain skin cancers. Basal Cell Carcinoma, Melanoma, and Squamous Cell Carcinoma are all types that may present with bleeding lesions. Early detection is important for these conditions.",,True,True,TP
+6/30/2026 14:28,What is skin cancer and how dangerous is it?,Melanoma,medgemma-skincancer,False,2,50.1,1.3028,0.0,,51.41,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?danger WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasDanger ?danger
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:29,A 78-year-old man who smokes and has had skin cancer before develops a lesion on his back. Which cancer has both smoking and previous skin cancer as risk factors?,Melanoma,medgemma-skincancer,False,2,39.08,0.5507,0.0,,39.63,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor sc:Smoking .
+  ?cancer sc:hasRiskFactor sc:PreviousSkinCancer .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:30,"A 55-year-old woman has an itchy, bleeding, raised lesion on her neck. What skin cancer appears on the neck with these symptoms?",BasalCellCarcinoma,medgemma-skincancer,False,2,44.12,0.7197,0.0,,44.84,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer
+WHERE{
+    ?cancer sc:commonlyFoundOn sc:Face .
+    ?cancer sc:hasSymptom sc:Itching .
+    ?cancer sc:hasSymptom sc:Bleeding .
+    ?cancer sc:hasSymptom sc:Elevation .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:30,A doctor is examining a suspicious mole using dermoscopy. What cancer is typically diagnosed this way?,Melanoma,medgemma-skincancer,True,0,10.18,0.3604,7.63,24.72,42.89,True,37,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:diagnosedBy sc:Dermoscopy }","Melanoma
+SquamousCellCarcinoma",Dermoscopy is often used to diagnose suspicious moles that may be cancerous. The most common type of skin cancer diagnosed in this way is Melanoma. Other types of skin cancers can also be identified using this technique.,,True,True,TP
+6/30/2026 14:31,A 62-year-old female smoker has a lesion on her chest. Which skin cancers are associated with smoking?,SquamousCellCarcinoma,medgemma-skincancer,True,0,12.22,0.5603,13.91,30.1,56.8,True,44,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:Smoking }",SquamousCellCarcinoma,"Smoking is associated with an increased risk of Squamous Cell Carcinoma (SCC), especially in sun-exposed areas like the chest. SCC is a type of skin cancer that arises from squamous cells and can present as a firm, red nodule or a scaly, crusted patch.",,True,True,TP
+6/30/2026 14:32,"A 77-year-old patient has a persistent rough patch on the face that won't go away. Without knowing the diagnosis, what treatments exist for precancerous skin lesions?",Cryotherapy,medgemma-skincancer,False,2,49.33,0.8938,0.0,,50.23,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:commonlyFoundOn sc:Face .
+                         ?cancer sc:hasSymptom sc:Itching .
+                         ?cancer sc:hasSymptom sc:Elevation .
+                         ?cancer sc:hasRiskFactor sc:FairSkin .
+                         ?cancer sc:hasRiskFactor sc:UVExposure .
+                         ?treatment sc:treatedWith ?cancer }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:33,"A 65-year-old patient has a rough, dark lesion on the face that looks like it could be cancerous. How would a doctor confirm whether this is malignant?",Biopsy,medgemma-skincancer,True,1,24.93,0.8207,24.4,29.78,79.94,True,49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { ?cancer sc:commonlyFoundOn sc:Face . ?cancer sc:diagnosedBy ?method }","Biopsy
+VisualExamination
+Biopsy
+VisualExamination
+Biopsy
+Dermoscopy","Given the patient's age and the appearance of the facial lesion, further investigation is warranted to rule out malignancy. A biopsy is often performed to obtain tissue samples for microscopic examination by a pathologist. This allows definitive diagnosis and characterization of any potential cancerous cells present in the lesion.",,True,True,TP
+6/30/2026 14:34,"A 49-year-old woman notices a mole on her thigh that has been growing, changing and becoming raised over several weeks. What is the most likely diagnosis and how is it confirmed?",Biopsy,medgemma-skincancer,False,2,78.85,2.4805,0.0,,81.33,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?diagnosis WHERE {
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasSymptom ?symptom .
+  ?symptom sc:hasValue ""Elevation"" .
+  ?cancer sc:commonlyFoundOn sc:Thigh .
+}",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:35,What is the survival rate for melanoma?,Melanoma,medgemma-skincancer,False,2,42.22,0.581,4.54,,47.35,False,0,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?survivalRate WHERE { sc:Melanoma sc:treatedWith ?treatment .
+                            ?treatment sc:hasOutcome ?outcome .
+                            ?outcome rdfs:label ""survival rate"" .
+                            FILTER(LANG(?outcome) = 'en') }",No results found,FAILED - validation,"GraphDB returned empty/error — SPARQL likely references a class or region not present in the ontology (e.g. body region, diagnostic, or risk-factor combination not modeled), or uses blank nodes/string literals instead of ontology class URIs.",False,False,TN
+6/30/2026 14:36,A surgeon is planning Mohs surgery for a patient. Which skin cancer is most commonly treated this way?,BasalCellCarcinoma,medgemma-skincancer,True,0,9.08,0.1419,5.99,35.68,50.9,True,52,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:MohsSurgery }",BasalCellCarcinoma,"Basal Cell Carcinoma (BCC) is the most common type of skin cancer and frequently requires Mohs surgery. This surgical technique involves removing the tumor layer by layer while examining each piece under magnification to ensure complete removal with minimal healthy tissue damage, especially in cosmetically sensitive areas like the face or ears.",,True,True,TP

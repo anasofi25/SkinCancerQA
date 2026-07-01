@@ -1,0 +1,587 @@
+question,expected_keyword,model,valid,retries,agent1_time,graphdb_time,agent2_time,agent3_time,total_time,sparql,raw_results,answer,keyword_hit,answer_length_words,,,,,,,
+Which skin cancers are treated with immunotherapy?,Melanoma,llama3.2,TRUE,0,29.56,0.55,15.47,9.89,55.48,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }",Melanoma,"Immunotherapy is often used to treat Melanoma, which is a type of skin cancer that starts in the pigment cells. This treatment works by helping the body's immune system recognize and fight the cancer cells more effectively. While it's also being researched for other types of skin cancers, such as Merkel cell carcinoma, the effectiveness of immunotherapy for these other types is not yet as well established as it is for Melanoma.",TRUE,72,,,,,total exec time ,,
+Which skin cancers are treated with immunotherapy?,Melanoma,medgemma-skincancer,TRUE,0,6.89,0.49,2.86,31.66,41.9,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }",Melanoma,"Immunotherapy is used to treat certain types of skin cancer, including melanoma. This treatment approach harnesses the patient's own immune system to fight off cancer cells. It can be particularly effective in advanced stages of melanoma where other treatments have failed.",TRUE,41,,,,,1897.9,30 min,
+Which skin cancers commonly appear on the face?,BasalCellCarcinoma,llama3.2,TRUE,0,16.27,0.96,20.01,23.83,61.08,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","When it comes to skin cancers that commonly appear on the face, you're looking at three types: Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma. These types of skin cancers are often associated with sun exposure and can develop as a result of prolonged or intense sun radiation. Regular skin checks by a dermatologist can help detect these conditions early on.",TRUE,62,,,,,,,
+Which skin cancers commonly appear on the face?,BasalCellCarcinoma,medgemma-skincancer,TRUE,0,8.94,0.5,5.52,35.97,50.94,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma are all types of skin cancer that can occur on the face. These cancers arise from sun exposure and may present as rough patches, scaly lesions, or pearly bumps. Prompt diagnosis and treatment are crucial for successful management.",TRUE,47,,,,,total time Variant A ,,total time Variant B
+Which cancers have UV exposure as a risk factor?,Melanoma,llama3.2,TRUE,0,14.51,0.7,15.4,8.32,38.92,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","UV exposure is a major risk factor for several types of skin cancers. Actinic keratosis, basal cell carcinoma, melanoma, and squamous cell carcinoma are all linked to excessive sun exposure. These conditions can develop in people who spend too much time outdoors without proper protection from the sun's ultraviolet rays.",TRUE,50,,,,,1006.29,,"891,6"
+Which cancers have UV exposure as a risk factor?,Melanoma,medgemma-skincancer,TRUE,0,6.06,0.45,3.16,36.77,46.45,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Exposure to ultraviolet (UV) radiation from sunlight is a significant risk factor for several types of skin cancer. Actinic Keratosis, Basal Cell Carcinoma, Melanoma and Squamous Cell Carcinoma are all associated with cumulative UV exposure over time. These conditions develop when the body's DNA is damaged by UV light.",TRUE,49,,,,,,,
+What are all the treatments available for skin cancer?,Immunotherapy,llama3.2,TRUE,1,20.82,1.37,18.16,10.81,51.15,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy
+Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision
+Chemotherapy
+Immunotherapy
+SurgicalExcision
+Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy
+SurgicalExcision
+SurgicalExcision
+SurgicalExcision
+Immunotherapy
+MohsSurgery","So, for skin cancer treatment, we have several options available. These include Cryotherapy, Topical Therapy, Mohs Surgery, Radiation Therapy, and Surgical Excision. We also have more advanced treatments like Chemotherapy, Immunotherapy to help treat different types of skin cancers.",TRUE,39,,,,,,,
+What are all the treatments available for skin cancer?,Immunotherapy,medgemma-skincancer,TRUE,1,19,0.69,4.31,43.21,67.21,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy
+Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision
+Chemotherapy
+Immunotherapy
+SurgicalExcision
+Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy
+SurgicalExcision
+SurgicalExcision
+SurgicalExcision
+Immunotherapy
+MohsSurgery","Skin cancer treatment options depend on factors like the type and location of the tumor, patient health, and previous treatments. Common methods include surgical removal (such as Mohs surgery for some skin cancers), cryotherapy to destroy abnormal cells, topical medications, radiation therapy to kill cancer cells, and chemotherapy or immunotherapy in advanced cases.",TRUE,53,,,,,,,
+What skin cancers can be treated with cryotherapy?,ActinicKeratosis,llama3.2,TRUE,0,13.12,0.77,13.31,10.54,37.75,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Cryotherapy }","ActinicKeratosis
+BasalCellCarcinoma","Actinic keratosis and basal cell carcinoma are types of skin cancers that can be treated with cryotherapy. This non-surgical procedure uses extremely cold temperatures to destroy abnormal cells on the skin's surface, which helps prevent the cancer from growing or spreading further. Cryotherapy is often used for small lesions like actinic keratosis and superficial basal cell carcinomas, providing a minimally invasive option for treatment.",TRUE,64,,,,,,,
+What skin cancers can be treated with cryotherapy?,ActinicKeratosis,medgemma-skincancer,TRUE,0,8.59,0.56,7.08,35.93,52.16,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Cryotherapy }","ActinicKeratosis
+BasalCellCarcinoma","Actinic Keratosis and Basal Cell Carcinoma are two types of skin cancers that can sometimes be treated with cryotherapy. Cryotherapy is a treatment involving freezing to destroy abnormal cells on the skin. These specific skin cancers often present as rough, scaly patches or small, pearly bumps and require careful management.",TRUE,50,,,,,,,
+What are the symptoms of melanoma?,Asymmetry,llama3.2,TRUE,0,15.64,0.52,16,9.36,41.52,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }","Asymmetry
+Bleeding
+ColorVariation
+DiameterChange
+IrregularBorder","So, when it comes to melanoma, one of the key signs is an irregular border. This means that the edges of the mole or skin spot are not smooth and even, but rather have a rough or jagged appearance. Another important symptom is asymmetry - if the mole doesn't look the same on both sides, this could be a warning sign.",TRUE,61,,,,,,,
+What are the symptoms of melanoma?,Asymmetry,medgemma-skincancer,TRUE,0,5.84,0.52,4.45,32.33,43.14,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }","Asymmetry
+Bleeding
+ColorVariation
+DiameterChange
+IrregularBorder","Melanoma symptoms can include changes to a mole's appearance. These changes might involve asymmetry (uneven sides), bleeding (especially if it oozes or crusts over), color variations within the lesion, and an irregular border. A growth in size is also concerning.",TRUE,40,,,,,,,
+What are the symptoms of basal cell carcinoma?,PearlAppearance,llama3.2,TRUE,0,13.58,0.66,28.75,9.68,52.68,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:BasalCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Elevation
+OpenSore
+PearlAppearance","Basal cell carcinoma is typically characterized by a small, shiny pearl-shaped bump on the skin. In some cases, it can become open sores that bleed easily, and the surrounding skin may become swollen or inflamed. The good news is that basal cell carcinoma rarely spreads to other parts of the body, and most cases can be treated successfully with minor surgery or other local treatments.",TRUE,65,,,,,,,
+What are the symptoms of basal cell carcinoma?,PearlAppearance,medgemma-skincancer,TRUE,0,7.68,0.46,6.21,29.26,43.61,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:BasalCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Elevation
+OpenSore
+PearlAppearance","Basal cell carcinoma (BCC) often appears as a pearly or waxy bump, sometimes with visible blood vessels. It can also present as a flat flesh-colored or brown scar-like lesion. Early detection and treatment are crucial for successful management of BCC.",TRUE,40,,,,,,,
+How is melanoma treated?,Immunotherapy,llama3.2,TRUE,0,13.63,0.59,19.04,7.95,41.22,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }","Chemotherapy
+Immunotherapy
+SurgicalExcision","Melanoma treatment options include chemotherapy, which uses medications to kill cancer cells. Immunotherapy is also used to boost the body's natural defense against cancer, helping it recognize and attack melanoma cells. In some cases, surgical excision may be necessary to remove the tumor or affected area.",TRUE,46,,,,,,,
+How is melanoma treated?,Immunotherapy,medgemma-skincancer,TRUE,0,7.72,0.56,5.55,27.66,41.49,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }","Chemotherapy
+Immunotherapy
+SurgicalExcision","Melanoma treatment depends on the stage and location of the cancer, but common options include chemotherapy to kill remaining cancer cells after surgery. Immunotherapy stimulates the body's immune system to fight cancer. Surgical excision is often performed to remove melanoma completely.",TRUE,41,,,,,,,
+How is basal cell carcinoma treated?,MohsSurgery,llama3.2,TRUE,0,12.14,0.54,12.9,9.02,34.6,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is typically treated with one of two main surgical methods: Surgical Excision and Mohs Surgery. Cryotherapy may also be used in some cases, where the abnormal skin cells are frozen off using liquid nitrogen. In rare instances, Radiation Therapy might be recommended for larger or more aggressive tumors.",TRUE,51,,,,,,,
+How is basal cell carcinoma treated?,MohsSurgery,medgemma-skincancer,TRUE,0,6.41,0.42,4.9,34.9,46.64,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is often treated with Mohs surgery, which involves removing the cancer layer by layer while examining it under a microscope to ensure complete removal and preserve healthy tissue. Cryotherapy, radiation therapy, and surgical excision are also effective treatment options depending on the location, size, and subtype of the BCC.",TRUE,52,,,,,,,
+How is squamous cell carcinoma treated?,SurgicalExcision,llama3.2,TRUE,0,13.47,0.72,16.26,9.44,39.9,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy","Squamous cell carcinoma can be treated with various methods. Surgery is often the primary treatment for removing the cancerous tissue, while radiation therapy may be used to kill any remaining cancer cells. In some cases, topical therapy such as creams or ointments containing medicated ingredients can also be prescribed to help treat the condition.",TRUE,54,,,,,,,
+How is squamous cell carcinoma treated?,SurgicalExcision,medgemma-skincancer,TRUE,0,8.31,0.4,2.58,37.31,48.6,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy","Squamous cell carcinoma (SCC) is often treated with surgical excision to remove the cancerous tissue completely. Depending on the location and size of the SCC, other treatments like chemotherapy or radiation therapy may be considered. Topical therapies might also be used for certain types or locations of SCC.",TRUE,48,,,,,,,
+What are the risk factors for melanoma?,UVExposure,llama3.2,TRUE,0,15.66,1.29,17.58,17.53,52.07,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","If you have Fair Skin and a history of previous skin cancers like Basal Cell Carcinoma, your risk for developing melanoma increases. UV Exposure from the sun or tanning beds also puts you at higher risk, as does a Family History of melanoma. Additionally, if you have conditions that weaken your immune system, such as an Immunosuppressed System, or if you smoke, you may be more likely to develop skin cancer like Squamous Cell Carcinoma or Melanoma.",TRUE,77,,,,,,,
+What are the risk factors for melanoma?,UVExposure,medgemma-skincancer,TRUE,0,8.35,0.55,14.13,23.85,46.88,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:Melanoma sc:hasRiskFactor ?risk }","FairSkin
+FamilyHistory
+UVExposure","Melanoma risk is influenced by several factors including fair skin, a family history of melanoma, and significant exposure to ultraviolet radiation. These factors can increase susceptibility to this type of skin cancer.",TRUE,32,,,,,,,
+What are the risk factors for skin cancer?,UVExposure,llama3.2,TRUE,0,13.07,0.58,20.57,13.61,47.83,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","If you have fair skin, you're at higher risk of developing skin cancer. Exposure to the sun's UV rays also increases your chances of getting skin cancer, so be sure to protect yourself with sunscreen and clothing when going outside. Additionally, having a family history or being immunosuppressed can also increase your risk of certain types of skin cancer, such as melanoma and basal cell carcinoma.",TRUE,66,,,,,,,
+What are the risk factors for skin cancer?,UVExposure,medgemma-skincancer,TRUE,0,10.36,0.77,6.52,28.93,46.57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","The key risk factors for skin cancer include fair skin, significant sun exposure (especially in childhood), and a history of previous skin cancers. Other important considerations are certain genetic predispositions like family history of melanoma and immune suppression.",TRUE,38,,,,,,,
+What types of skin cancer exist?,Melanoma,llama3.2,TRUE,0,11.93,0.52,17.38,13.41,43.24,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }","ActinicKeratosis
+BasalCellCarcinoma
+NonMelanomaCancer
+Melanoma
+SquamousCellCarcinoma","There are several types of skin cancer that exist. The main categories include Basal Cell Carcinoma, Squamous Cell Carcinoma, and Melanoma. These three types account for the majority of skin cancers, with Actinic Keratosis being an early stage form of Squamous Cell Carcinoma and Non-Melanoma Cancer being a broader term that encompasses both Basal Cell Carcinoma and Squamous Cell Carcinoma.",TRUE,60,,,,,,,
+What types of skin cancer exist?,Melanoma,medgemma-skincancer,TRUE,0,8.07,0.62,3.84,37.57,50.1,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }","ActinicKeratosis
+BasalCellCarcinoma
+NonMelanomaCancer
+Melanoma
+SquamousCellCarcinoma","There are several types of skin cancer that can develop on the skin. These include Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma. Melanoma is another aggressive form of skin cancer that arises from pigment-producing cells.",TRUE,37,,,,,,,
+How is melanoma diagnosed?,Biopsy,llama3.2,TRUE,0,16.44,0.59,29.94,13.32,60.3,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","To diagnose melanoma, a skin biopsy is typically performed to remove a suspicious skin lesion and examine it under a microscope. Dermoscopy is also commonly used to visually examine the skin lesion in more detail before a biopsy is taken. This helps healthcare professionals determine whether the lesion is cancerous or not.",TRUE,52,,,,,,,
+How is melanoma diagnosed?,Biopsy,medgemma-skincancer,TRUE,0,12.51,0.77,7.71,25.68,46.68,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy",Melanoma diagnosis often involves a biopsy to determine if cancer cells are present and their characteristics. Dermoscopy is also used for visual examination of suspicious lesions that may require further investigation like a biopsy.,TRUE,34,,,,,,,
+How is skin cancer diagnosed?,Biopsy,llama3.2,TRUE,0,23.09,0.67,15.64,8.61,48.01,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","When skin cancer is suspected, a biopsy is usually performed to remove a sample of suspicious tissue for examination under a microscope. Dermoscopy, also known as skin microscopy, can also help identify potential skin cancers by taking a closer look at the surface layers of the skin. Both procedures are used together to get an accurate diagnosis and determine the best course of treatment.",TRUE,64,,,,,,,
+How is skin cancer diagnosed?,Biopsy,medgemma-skincancer,TRUE,0,5.64,0.6,4.2,33.46,43.89,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy",Skin cancer diagnosis often involves a biopsy to examine tissue samples under a microscope. Dermoscopy is another diagnostic tool used to visualize skin lesions and aid in identifying suspicious features that may warrant further investigation like a biopsy. This helps determine the type of skin cancer present.,TRUE,47,,,,,,,
+Where does melanoma commonly appear?,Back,llama3.2,TRUE,0,16.94,1.55,15.38,9.29,43.16,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }","Arms
+Back
+Legs","Melanoma is a type of skin cancer that commonly appears on areas of the body exposed to the sun. It often develops in the Arms, Back, and Legs, which are frequently exposed to ultraviolet (UV) radiation from the sun or tanning beds. Regular skin checks in these areas can help detect melanoma early on, when it's more treatable.",TRUE,58,,,,,,,
+Where does melanoma commonly appear?,Back,medgemma-skincancer,TRUE,0,16.24,0.57,4.21,31.8,52.82,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }","Arms
+Back
+Legs","Melanoma can develop on various parts of the body exposed to sunlight, including the arms and back. While it's more common in sun-exposed areas, melanomas can also appear on less frequently exposed sites like the legs. Early detection is crucial for successful treatment.",TRUE,43,,,,,,,
+Where does basal cell carcinoma commonly appear?,Face,llama3.2,TRUE,0,11.6,0.59,13.95,8.95,35.09,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }","Face
+Neck
+Scalp","Basal cell carcinoma is a type of skin cancer that commonly appears on sun-exposed areas of the body. It often shows up on the face, particularly around the nose and lips, as well as on the neck and scalp, which receive direct sunlight. These areas are more prone to developing basal cell carcinoma due to prolonged exposure to UV radiation from the sun or tanning beds.",TRUE,66,,,,,,,
+Where does basal cell carcinoma commonly appear?,Face,medgemma-skincancer,TRUE,0,5.99,0.41,4.14,32.51,43.06,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }","Face
+Neck
+Scalp",Basal cell carcinoma (BCC) is one of the most common types of skin cancer and often appears on sun-exposed areas like the face. It can also develop in other locations such as the neck and scalp. Early detection and treatment are crucial for successful outcomes.,TRUE,45,,,,,,,
+What symptoms does squamous cell carcinoma cause?,ScalyPatch,llama3.2,TRUE,0,12.14,0.53,12.25,9.19,34.11,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Itching
+OpenSore
+ScalyPatch","When it comes to squamous cell carcinoma, some common symptoms include an open sore (also known as an ulcer), which is a visible lesion that may bleed. Additionally, patients with this type of skin cancer may experience itching around the affected area or scaly patches on their skin. Bleeding can also occur if the tumor grows and presses into nearby tissues.",TRUE,61,,,,,,,
+What symptoms does squamous cell carcinoma cause?,ScalyPatch,medgemma-skincancer,TRUE,0,7.32,0.55,5.33,28.06,41.25,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Itching
+OpenSore
+ScalyPatch","Squamous cell carcinoma can manifest with various symptoms depending on its location and size. Common signs include an elevated lesion that may bleed, itch, or develop into an open sore (ulcer). In some cases, it might appear as a scaly patch of skin.",TRUE,43,,,,,,,
+What are the treatments for actinic keratosis?,Cryotherapy,llama3.2,TRUE,0,10.07,0.49,14.01,8.94,33.51,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy","Actinic keratosis is typically treated with two main methods. Cryotherapy involves using liquid nitrogen to freeze and remove the abnormal cells, while topical therapy uses medications applied directly to the skin to kill off the affected area. These treatments can be effective in removing actinic keratosis lesions and preventing them from turning into more serious conditions like squamous cell carcinoma.",TRUE,60,,,,,,,
+What are the treatments for actinic keratosis?,Cryotherapy,medgemma-skincancer,TRUE,0,5.87,0.43,2.52,27.3,36.12,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy","Actinic keratosis is often treated with cryotherapy, which involves freezing abnormal skin cells to destroy them. Topical therapies are also used to manage these pre-cancerous lesions by applying medications directly to the affected area.",TRUE,34,,,,,,,
+What are the risk factors for squamous cell carcinoma?,Smoking,llama3.2,TRUE,0,11.69,0.48,13.19,10.65,36.01,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }","ChemicalExposure
+ImmunosuppressedSystem
+Smoking
+UVExposure","Squamous cell carcinoma is a type of skin cancer that can be caused by several risk factors. Chemical exposure to certain substances such as arsenic can increase the risk, while an immunosuppressed system, meaning those with weakened immune systems, are also more susceptible. Additionally, individuals who smoke or have had significant UV exposure from the sun or tanning beds are also at a higher risk of developing this type of skin cancer.",TRUE,72,,,,,,,
+What are the risk factors for squamous cell carcinoma?,Smoking,medgemma-skincancer,TRUE,0,7.57,0.38,4.68,30.56,43.19,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }","ChemicalExposure
+ImmunosuppressedSystem
+Smoking
+UVExposure","Squamous cell carcinoma (SCC) can arise due to various factors including chemical exposures like radon gas. This cancer is also linked to weakened immune systems and increased sun exposure over time, though this specific response focuses on known risk factors for SCC in general.",TRUE,44,,,,,,,
+Is smoking a risk factor for basal cell carcinoma?,UVExposure,llama3.2,TRUE,0,14.44,0.66,11.3,9.16,35.56,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:BasalCellCarcinoma sc:hasRiskFactor ?risk }","FairSkin
+PreviousSkinCancer
+UVExposure","Smoking is indeed a risk factor for basal cell carcinoma. Having fair skin and previous skin cancer are also increased risks factors for this type of skin cancer. UV exposure can contribute to the development of basal cell carcinoma, making it even more important to take measures to protect your skin from the sun's ultraviolet rays when you smoke or have fair skin and a history of skin cancer.",TRUE,69,,,,,,,
+Is smoking a risk factor for basal cell carcinoma?,UVExposure,medgemma-skincancer,TRUE,0,5.52,0.13,3.93,32.43,42.01,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:BasalCellCarcinoma sc:hasRiskFactor ?risk }","FairSkin
+PreviousSkinCancer
+UVExposure","Smoking is generally not considered a direct risk factor for Basal Cell Carcinoma (BCC), which is primarily caused by sun exposure. However, some studies suggest that smoking may indirectly increase the risk of BCC through its impact on immune function and overall health.",TRUE,43,,,,,,,
+Which skin cancers are treated with immunotherapy?,Melanoma,medgemma-original,TRUE,0,5.8,0.08,7.48,8.01,21.36,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }",Melanoma,"Immunotherapy is a treatment option for melanoma, specifically advanced or metastatic melanoma that has spread to other parts of the body. It helps your own immune system fight cancer cells. This type of immunotherapy uses medications like checkpoint inhibitors to boost your immune response against melanoma tumors.",TRUE,47,,,,,,,
+Which skin cancers commonly appear on the face?,BasalCellCarcinoma,medgemma-original,TRUE,0,6.4,0.03,9.79,10.73,26.95,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma are all types of skin cancer that can occur on the face. Actinic Keratosis is often considered precancerous, while Basal Cell Carcinoma and Squamous Cell Carcinoma are both common forms of skin cancer that develop in the epidermis or its deeper layers.",TRUE,51,,,,,,,
+Which cancers have UV exposure as a risk factor?,Melanoma,medgemma-original,TRUE,0,6.53,0.03,12.26,11.55,30.37,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","Okay, here's the information about skin cancers and UV exposure:
+
+Actinic Keratosis, Basal Cell Carcinoma, Melanoma, and Squamous Cell Carcinoma are all types of skin cancer that have been linked to sun exposure. Therefore, reducing your time in the sun is important for preventing these conditions.",TRUE,46,,,,,,,
+What are all the treatments available for skin cancer?,Immunotherapy,medgemma-original,TRUE,1,12.88,0.06,12.63,10.59,36.16,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy
+Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision
+Chemotherapy
+Immunotherapy
+SurgicalExcision
+Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy
+SurgicalExcision
+SurgicalExcision
+SurgicalExcision
+Immunotherapy
+MohsSurgery","There are several ways to treat skin cancer depending on the type and stage of the cancer. Common treatments include surgical removal (like Mohs surgery), freezing with liquid nitrogen (cryotherapy), using topical medications, radiation therapy, chemotherapy, or immunotherapy.",TRUE,38,,,,,,,
+What skin cancers can be treated with cryotherapy?,ActinicKeratosis,medgemma-original,TRUE,0,6.51,0.03,11.62,7.92,26.08,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Cryotherapy }","ActinicKeratosis
+BasalCellCarcinoma",Cryotherapy is often used to treat Actinic Keratosis and Basal Cell Carcinoma. These are types of skin cancer that can be removed by freezing them off with liquid nitrogen.,TRUE,29,,,,,,,
+What are the symptoms of melanoma?,Asymmetry,medgemma-original,TRUE,0,6.68,0.03,2.63,10.47,19.8,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }","Asymmetry
+Bleeding
+ColorVariation
+DiameterChange
+IrregularBorder","Melanoma often presents with symptoms that are easy to remember using the acronym ABCDE: Asymmetry means one half of the mole doesn't match the other. Bleeding indicates if there is any leakage from the mole. ColorVariation refers to uneven colors within the mole, like shades of brown or black. DiameterChange alerts you to a mole getting bigger than 6mm across. IrregularBorder signals if the edges are notched, blurred, or ragged.",TRUE,70,,,,,,,
+What are the symptoms of basal cell carcinoma?,PearlAppearance,medgemma-original,TRUE,1,14.59,0.05,13.97,8.13,36.74,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:BasalCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Elevation
+OpenSore
+PearlAppearance",Basal cell carcinoma often presents with symptoms like a bleeding sore that might be elevated and have a pearly appearance. This type of skin cancer can also appear as an open wound that doesn't heal properly.,TRUE,36,,,,,,,
+How is melanoma treated?,Immunotherapy,medgemma-original,TRUE,0,7.1,0.02,10.62,8.68,26.42,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }","Chemotherapy
+Immunotherapy
+SurgicalExcision","Melanoma is treated with several options depending on its stage and how far it has spread. Common treatments include surgery to remove the cancerous tissue, chemotherapy to kill cancer cells throughout the body, and immunotherapy to help your immune system fight the melanoma.",TRUE,43,,,,,,,
+How is basal cell carcinoma treated?,MohsSurgery,medgemma-original,TRUE,0,6.78,0.02,9.53,11.88,28.21,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is usually treated with surgical excision to remove the affected skin. Other options include cryotherapy (freezing), Mohs surgery (a precise technique that removes the cancer and surrounding tissue layer by layer), or radiation therapy. The best choice depends on the size, location, and type of the cancer.",TRUE,50,,,,,,,
+How is squamous cell carcinoma treated?,SurgicalExcision,medgemma-original,TRUE,0,6.99,0.02,9.46,8.25,24.72,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy","Squamous cell carcinoma is treated with several options depending on the size and location of the cancer. Common treatments include surgical removal (surgical excision), radiation therapy, chemotherapy, and sometimes topical medications applied directly to the skin.",TRUE,36,,,,,,,
+What are the risk factors for melanoma?,UVExposure,medgemma-original,TRUE,0,8.51,0.08,14.26,12.34,35.19,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","Okay, here's some information about melanoma risk factors:
+
+Fair skin is a major risk factor. Exposure to ultraviolet (UV) light also increases your chances of developing it. A family history of melanoma can also make you more susceptible, and even certain immune system conditions or smoking habits can play a role.",TRUE,51,,,,,,,
+What are the risk factors for skin cancer?,UVExposure,medgemma-original,TRUE,0,8.47,0.02,14.48,11.89,34.86,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","Okay, here's some information about skin cancer risk factors:
+
+Sun exposure is a big one, and people with fair skin are more susceptible. A history of sun damage, previous skin cancers, family history, certain chemicals, or even being immunocompromised can also increase your risk.",TRUE,44,,,,,,,
+What types of skin cancer exist?,Melanoma,medgemma-original,TRUE,0,6.62,0.03,10.24,10.02,26.92,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }","ActinicKeratosis
+BasalCellCarcinoma
+NonMelanomaCancer
+Melanoma
+SquamousCellCarcinoma","Okay, there are several types of skin cancer we need to know about. The most common ones include Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma, all considered Non-Melanoma Cancers. Melanoma is another type that's more serious.",TRUE,38,,,,,,,
+How is melanoma diagnosed?,Biopsy,medgemma-original,TRUE,0,6.46,0.02,9.97,9.53,25.98,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","Melanoma is usually diagnosed through a skin biopsy where a small sample of the suspicious area is removed and examined under a microscope. Dermoscopy, which involves using a special magnifying device to look at the mole's surface features, is often used in conjunction with the biopsy for more detailed analysis.",TRUE,50,,,,,,,
+How is skin cancer diagnosed?,Biopsy,medgemma-original,TRUE,0,6.62,0.02,10.72,10.8,28.16,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","Skin cancer is often diagnosed with a **biopsy**. A small sample of skin is taken and examined under a microscope to see if it's cancerous. Sometimes, a **dermoscopy** is also used; this is like a magnifying glass that helps doctors examine the skin closely for suspicious spots.",TRUE,47,,,,,,,
+Where does melanoma commonly appear?,Back,medgemma-original,TRUE,0,7.1,0.04,11.14,9.53,27.81,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }","Arms
+Back
+Legs","Melanoma is often found on areas exposed to the sun's rays, such as the arms. It can also appear on the back, legs, and even the face. Regularly checking your skin for any new moles or changes in existing ones is important for early detection.",TRUE,45,,,,,,,
+Where does basal cell carcinoma commonly appear?,Face,medgemma-original,TRUE,0,7.08,0.02,9.64,8.58,25.31,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }","Face
+Neck
+Scalp","Basal cell carcinoma is most often found on sun-exposed areas of the body. Common locations include the face, neck, and scalp. These areas receive direct sunlight over time, increasing the risk for this type of skin cancer.",TRUE,37,,,,,,,
+What symptoms does squamous cell carcinoma cause?,ScalyPatch,medgemma-original,TRUE,0,7.26,0.04,10.27,7.89,25.46,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Itching
+OpenSore
+ScalyPatch","Squamous cell carcinoma can cause bleeding, itching, open sores, and scaly patches on the skin. These are signs that something is not right and you should see a doctor for an evaluation.",TRUE,32,,,,,,,
+What are the treatments for actinic keratosis?,Cryotherapy,medgemma-original,TRUE,0,6.91,0.04,10.17,8.46,25.57,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy","Actinic keratosis treatments include cryotherapy and topical therapy. Cryotherapy involves freezing off the abnormal skin cells, while topical therapies use creams or lotions to destroy them directly on the skin's surface.",TRUE,31,,,,,,,
+What are the risk factors for squamous cell carcinoma?,Smoking,medgemma-original,TRUE,0,7.33,0.03,10.61,7.11,25.09,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }","ChemicalExposure
+ImmunosuppressedSystem
+Smoking
+UVExposure","Squamous cell carcinoma is linked to several factors. These include exposure to certain chemicals, being immunosuppressed, smoking, and excessive sun exposure.",TRUE,21,,,,,,,
+Is smoking a risk factor for basal cell carcinoma?,UVExposure,medgemma-original,TRUE,0,7.18,0.02,10.25,9.29,26.74,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:BasalCellCarcinoma sc:hasRiskFactor ?risk }","FairSkin
+PreviousSkinCancer
+UVExposure","Yes, smoking is considered a risk factor for basal cell carcinoma (BCC). The FairSkin knowledge base suggests that smoking can increase your chances of developing BCC. UVExposure may also play a role in skin cancer development, including BCC.",TRUE,38,,,,,,,
+Which skin cancers are treated with immunotherapy?,Melanoma,skincancer-llama,TRUE,0,6.1,0.02,2.71,53.51,62.34,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Immunotherapy }",Melanoma,"Immunotherapy is a treatment approach that uses the body's immune system to fight cancer. For melanoma, this therapy can help target and destroy cancer cells more effectively. This is particularly important for advanced cases where other treatments may not be as effective.",TRUE,42,,,,,,,
+Which skin cancers commonly appear on the face?,BasalCellCarcinoma,skincancer-llama,TRUE,0,9.13,0.57,2.44,18.28,30.43,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:commonlyFoundOn sc:Face }","ActinicKeratosis
+BasalCellCarcinoma
+SquamousCellCarcinoma","The face is a common location for certain skin cancers. Actinic Keratosis, Basal Cell Carcinoma, and Squamous Cell Carcinoma often appear on sun-exposed areas like the face. While these can be precancerous or cancerous, early detection and treatment are crucial for successful outcomes.",TRUE,43,,,,,,,
+Which cancers have UV exposure as a risk factor?,Melanoma,skincancer-llama,TRUE,0,7.28,0.02,4.2,17.19,28.69,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:hasRiskFactor sc:UVExposure }","ActinicKeratosis
+BasalCellCarcinoma
+Melanoma
+SquamousCellCarcinoma","UV exposure is a significant risk factor for several types of skin cancer. These include Actinic Keratosis, Basal Cell Carcinoma, Melanoma, and Squamous Cell Carcinoma. While prevention measures like sunscreen can reduce the risk, early detection and treatment are crucial for managing these cancers effectively.",TRUE,45,,,,,,,
+What are all the treatments available for skin cancer?,Immunotherapy,skincancer-llama,TRUE,1,13.41,0.05,2.35,19.77,35.58,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { ?cancer sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy
+Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision
+Chemotherapy
+Immunotherapy
+SurgicalExcision
+Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy
+SurgicalExcision
+SurgicalExcision
+SurgicalExcision
+Immunotherapy
+MohsSurgery","There are several treatment options available for skin cancer, depending on the type and location of the lesion. These include methods like cryotherapy, topical therapy, Mohs surgery, radiation therapy, surgical excision, chemotherapy, immunotherapy, and more. Each of these approaches is designed to remove or manage the cancerous cells effectively.",TRUE,49,,,,,,,
+What skin cancers can be treated with cryotherapy?,ActinicKeratosis,skincancer-llama,TRUE,0,6.64,0.04,3.36,16.34,26.37,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer WHERE { ?cancer sc:treatedWith sc:Cryotherapy }","ActinicKeratosis
+BasalCellCarcinoma","Actinic keratoses and Basal Cell Carcinoma are skin cancers that can be treated with cryotherapy. This treatment involves freezing the abnormal cells to prevent them from growing further. While cryotherapy is effective for these types of lesions, it's essential to monitor them for any changes over time.",TRUE,47,,,,,,,
+What are the symptoms of melanoma?,Asymmetry,skincancer-llama,TRUE,0,6.74,0.03,2.67,14.05,23.5,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:Melanoma sc:hasSymptom ?symptom }","Asymmetry
+Bleeding
+ColorVariation
+DiameterChange
+IrregularBorder","Melanoma is often characterized by changes in its appearance. These changes can include an irregular border, asymmetry, and variations in color such as bleeding or dark spots. While a growth that changes in diameter or develops new features can also be concerning.",TRUE,42,,,,,,,
+What are the symptoms of basal cell carcinoma?,PearlAppearance,skincancer-llama,TRUE,0,7.27,0.04,4.12,10.67,22.09,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:BasalCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Elevation
+OpenSore
+PearlAppearance","Basal cell carcinoma often presents with symptoms like bleeding and elevation. These changes in appearance can occur on the skin and may resemble an open sore or a raised, pearly lesion.",TRUE,31,,,,,,,
+How is melanoma treated?,Immunotherapy,skincancer-llama,TRUE,0,8.15,0.02,3.77,14.21,26.15,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:Melanoma sc:treatedWith ?treatment }","Chemotherapy
+Immunotherapy
+SurgicalExcision","Melanoma is typically treated with surgery to remove the cancerous cells. In some cases, additional treatments like chemotherapy or immunotherapy may be recommended to ensure all cancerous cells are eliminated. These treatments work together to help control and potentially cure the melanoma.",TRUE,42,,,,,,,
+How is basal cell carcinoma treated?,MohsSurgery,skincancer-llama,TRUE,0,7.2,0.04,2.97,17.6,27.81,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:BasalCellCarcinoma sc:treatedWith ?treatment }","Cryotherapy
+MohsSurgery
+RadiationTherapy
+SurgicalExcision","Basal cell carcinoma is typically treated with surgical excision, where the affected area is removed and then reattached. Other treatment options include Mohs surgery, which precisely removes cancerous cells while preserving healthy tissue, and radiation therapy, which uses high-energy rays to kill cancer cells. Cryotherapy involves freezing the cancer cells to destroy them.",TRUE,53,,,,,,,
+How is squamous cell carcinoma treated?,SurgicalExcision,skincancer-llama,TRUE,0,7.03,0.04,5.09,15.88,28.03,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:SquamousCellCarcinoma sc:treatedWith ?treatment }","Chemotherapy
+RadiationTherapy
+SurgicalExcision
+TopicalTherapy","Squamous cell carcinoma can be treated with various methods depending on the severity and location of the cancer. Common treatments include chemotherapy to kill cancer cells, radiation therapy to destroy malignant tissue, surgical excision where the affected skin is removed, or topical therapy directly applied to the skin to combat the disease.",TRUE,52,,,,,,,
+What are the risk factors for melanoma?,UVExposure,skincancer-llama,TRUE,0,8.97,0.03,3.94,22.35,35.29,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","To develop melanoma, several risk factors come into play. These include having fair skin, a history of sun exposure, previous skin cancers like actinic keratosis or basal cell carcinoma, and certain genetic predispositions such as family history. Additionally, being immunosuppressed due to medical treatment or having conditions that increase sun sensitivity can also elevate the risk.",TRUE,56,,,,,,,
+What are the risk factors for skin cancer?,UVExposure,skincancer-llama,TRUE,0,8.4,0.05,3.87,20.76,33.08,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?cancer ?risk WHERE { 
+  ?cancer rdfs:subClassOf sc:SkinCancer .
+  ?cancer sc:hasRiskFactor ?risk 
+}","ActinicKeratosis
+FairSkin
+ActinicKeratosis
+UVExposure
+BasalCellCarcinoma
+FairSkin
+BasalCellCarcinoma
+PreviousSkinCancer
+BasalCellCarcinoma
+UVExposure
+Melanoma
+FairSkin
+Melanoma
+FamilyHistory
+Melanoma
+UVExposure
+SquamousCellCarcinoma
+ChemicalExposure
+SquamousCellCarcinoma
+ImmunosuppressedSystem
+SquamousCellCarcinoma
+Smoking
+SquamousCellCarcinoma
+UVExposure","The risk factors for skin cancer include having fair skin, a history of previous skin cancer, and exposure to ultraviolet (UV) radiation. Other risk factors can be genetic, such as a family history, or environmental, like smoking and certain chemicals. These factors can increase the likelihood of developing various types of skin cancer.",TRUE,53,,,,,,,
+What types of skin cancer exist?,Melanoma,skincancer-llama,TRUE,0,6.6,0.02,5.01,18.21,29.84,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?type WHERE { ?type rdfs:subClassOf sc:SkinCancer }","ActinicKeratosis
+BasalCellCarcinoma
+NonMelanomaCancer
+Melanoma
+SquamousCellCarcinoma","There are several types of skin cancer. These include Basal Cell Carcinoma, Melanoma, and Non-Melanoma Cancer, which encompass various subtypes like Squamous Cell Carcinoma. Actinic Keratosis is also considered a precancerous lesion that can potentially develop into these skin cancers if left untreated.",TRUE,43,,,,,,,
+How is melanoma diagnosed?,Biopsy,skincancer-llama,TRUE,0,6.76,0.02,3.5,15.32,25.6,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","Diagnosing melanoma typically involves a biopsy, where a sample of skin tissue is examined for cancerous cells. Dermoscopy, a non-invasive skin examination technique, can also provide suspicious findings that may prompt a biopsy. This helps confirm the presence of melanoma and guide treatment decisions.",TRUE,44,,,,,,,
+How is skin cancer diagnosed?,Biopsy,skincancer-llama,TRUE,0,6.69,0.03,3.66,19.35,29.73,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?method WHERE { sc:Melanoma sc:diagnosedBy ?method }","Biopsy
+Dermoscopy","Diagnosing skin cancer typically involves a combination of clinical evaluation and additional testing. The most definitive way to confirm the presence of skin cancer is through a biopsy, where a sample of tissue is examined under a microscope. Dermoscopy, also known as skin scraping or impression cytology, can provide further clues about the type of skin cancer present.",TRUE,58,,,,,,,
+Where does melanoma commonly appear?,Back,skincancer-llama,TRUE,0,6.99,0.04,3.65,15.67,26.34,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:Melanoma sc:commonlyFoundOn ?region }","Arms
+Back
+Legs","Melanoma is a type of skin cancer that commonly develops on sun-exposed areas like the arms, back, and legs. These are the most frequent sites where melanoma appears, although it can occur elsewhere on the body. Early detection and treatment are crucial for a good prognosis in melanoma cases.",TRUE,49,,,,,,,
+Where does basal cell carcinoma commonly appear?,Face,skincancer-llama,TRUE,0,7.03,0.02,3.75,14.58,25.38,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?region WHERE { sc:BasalCellCarcinoma sc:commonlyFoundOn ?region }","Face
+Neck
+Scalp","Basal cell carcinoma most commonly appears on sun-exposed areas of the body. The face is a frequent site, along with other areas like the neck and scalp. These locations are prone to ultraviolet radiation, which can contribute to the development of this type of skin cancer.",TRUE,46,,,,,,,
+What symptoms does squamous cell carcinoma cause?,ScalyPatch,skincancer-llama,TRUE,0,7.1,0.02,4.59,16.09,27.8,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?symptom WHERE { sc:SquamousCellCarcinoma sc:hasSymptom ?symptom }","Bleeding
+Itching
+OpenSore
+ScalyPatch","Squamous cell carcinoma often presents with symptoms like itching, which can be a persistent or occasional sensation. It may also cause bleeding, especially when the skin is scratched or broken. In some cases, an open sore or a scaly patch on the skin can be a sign of this type of cancer.",TRUE,52,,,,,,,
+What are the treatments for actinic keratosis?,Cryotherapy,skincancer-llama,TRUE,0,7.25,0.02,3.56,19.33,30.16,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?treatment WHERE { sc:ActinicKeratosis sc:treatedWith ?treatment }","Cryotherapy
+TopicalTherapy","Actinic keratosis is typically treated with cryotherapy, which involves freezing the abnormal cells to prevent them from developing into skin cancer. Topical therapy is another common approach, where medications are applied directly to the affected area to remove the precancerous lesions. These treatments aim to eliminate the actinic keratosis and reduce the risk of progression to squamous cell carcinoma.",TRUE,59,,,,,,,
+What are the risk factors for squamous cell carcinoma?,Smoking,skincancer-llama,TRUE,0,6.99,0.04,4,19.69,30.72,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:SquamousCellCarcinoma sc:hasRiskFactor ?risk }","ChemicalExposure
+ImmunosuppressedSystem
+Smoking
+UVExposure","Squamous cell carcinoma is often associated with several key risk factors. These include exposure to certain chemicals like pesticides and certain heavy metals, being immunosuppressed due to organ transplants or conditions like HIV/AIDS, and significant sun exposure from UV rays. Additionally, smoking is also a well-documented risk factor for developing this type of skin cancer.",TRUE,55,,,,,,,
+Is smoking a risk factor for basal cell carcinoma?,UVExposure,skincancer-llama,TRUE,0,7.26,0.04,3,16.86,27.17,"PREFIX sc: <http://www.semanticweb.org/skincancer_exp#>
+SELECT ?risk WHERE { sc:BasalCellCarcinoma sc:hasRiskFactor ?risk }","FairSkin
+PreviousSkinCancer
+UVExposure","Yes, smoking is considered a risk factor for basal cell carcinoma. While Basal Cell Carcinoma is often associated with sun exposure and Fair Skin, other factors like Smoking can increase the likelihood of developing this type of skin cancer. UV Exposure is also a significant risk, but so are other environmental and lifestyle elements.",TRUE,54,,,,,,,

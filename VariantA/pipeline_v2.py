@@ -1,11 +1,12 @@
 from agent_gen_query import generate_sparql
 from agent_validator import validate_results
-#from agent_explainer import
 from agent_explainer2 import explain_answer, DEFAULT_MODEL
 import requests
 import threading
+import time
 
 GRAPHDB_ENDPOINT = "http://localhost:7200/repositories/skin_cancer_expanded"
+
 
 def execute_query(query):
     headers = {"Accept": "application/sparql-results+json"}
@@ -28,6 +29,7 @@ def execute_query(query):
         return "No results found"
 
     results = []
+    # Exclude patient individuals — only class-level answers are relevant
     EXCLUDE = {"case01", "case02", "case03", "case04", "case05"}
     for binding in data["results"]["bindings"]:
         for var in binding:
@@ -42,31 +44,45 @@ def execute_query(query):
     return "\n".join(results)
 
 
-def run_pipeline(question, max_retries=2, agent3_model=DEFAULT_MODEL):
+def run_pipeline(question, max_retries=2, agent3_model=DEFAULT_MODEL, history=None):
     feedback = None
+    pipeline_start = time.perf_counter()
+
+    # Prepend the last two exchanges as context for follow-up questions
+    context = ""
+    if history:
+        for prev_q, prev_a in history[-2:]:
+            context += f"Previous Q: {prev_q}\nPrevious A: {prev_a}\n\n"
+
+    full_question = context + question if context else question
 
     for attempt in range(max_retries + 1):
         print(f"\n--- Attempt {attempt + 1} ---")
 
-        sparql_query = generate_sparql(question, feedback)
+        sparql_query = generate_sparql(full_question, feedback)
         results = execute_query(sparql_query)
-
         is_valid, reason, raw = validate_results(question, sparql_query, results)
 
         if is_valid:
+            agent3_start = time.perf_counter()
             answer = explain_answer(question, results, model_key=agent3_model)
+            agent3_time = round(time.perf_counter() - agent3_start, 2)
+            total_time = round(time.perf_counter() - pipeline_start, 2)
+            print(f"Agent 3 ({agent3_model}): {agent3_time}s | Total: {total_time}s")
             return sparql_query, results, answer
 
+        # Pass rejection reason back to Agent 1 for self-correction on next attempt
         feedback = reason or "The query does not answer the question correctly."
 
     return None, None, None
 
 
-def run_pipeline_with_timeout(question, max_retries=2, timeout_seconds=120, agent3_model=DEFAULT_MODEL):
+def run_pipeline_with_timeout(question, max_retries=2, timeout_seconds=400,
+                               agent3_model=DEFAULT_MODEL, history=None):
     result = [None, None, None]
 
     def target():
-        r = run_pipeline(question, max_retries, agent3_model)
+        r = run_pipeline(question, max_retries, agent3_model, history=history)
         result[0], result[1], result[2] = r
 
     thread = threading.Thread(target=target)
